@@ -317,15 +317,85 @@ footer{border-top:1px solid var(--border);padding:30px 0 44px;margin-top:20px}
 .sub-head span{font-size:13px;color:var(--dim)}
 .sub-head::after{content:"";flex:1;height:1px;background:var(--border);min-width:20px}
 
-/* reveal */
-.rv{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.2,.7,.3,1),transform .6s cubic-bezier(.2,.7,.3,1)}
-.rv.in{opacity:1;transform:none}
+
+/* ---------- produtos em destaque ---------- */
+.prod-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media(max-width:900px){.prod-grid{grid-template-columns:minmax(0,1fr)}}
+.prod{
+  --pc:var(--orange);--pcs:rgba(224,134,79,.12);
+  position:relative;display:flex;flex-direction:column;overflow:hidden;text-decoration:none;color:inherit;
+  border:1px solid var(--border);border-radius:18px;
+  background:linear-gradient(180deg,var(--surface),#0e131b);
+  transition:border-color .22s ease,transform .22s ease,box-shadow .22s ease;
+}
+.prod:hover{transform:translateY(-4px);border-color:#3a4658;box-shadow:0 26px 50px -30px rgba(0,0,0,.95)}
+.prod::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:1px;opacity:0;transition:opacity .25s ease;
+  background:linear-gradient(90deg,transparent,var(--pc),transparent);
+}
+.prod:hover::before{opacity:.85}
+.prod.wide{grid-column:1 / -1}
+.prod.wide .prod-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:stretch}
+.prod.wide .prod-vis{min-height:236px}
+@media(max-width:900px){.prod.wide{grid-column:auto}.prod.wide .prod-body{grid-template-columns:minmax(0,1fr)}}
+.prod-vis{position:relative;padding:24px 24px 0;min-height:186px;overflow:hidden;background:var(--pcs)}
+.prod-in{padding:24px;display:flex;flex-direction:column;flex:1;min-width:0}
+.prod-top{display:flex;align-items:center;gap:10px;margin-bottom:13px;flex-wrap:wrap}
+.prod-mark{width:31px;height:31px;border-radius:9px;display:grid;place-items:center;background:var(--pc);color:#0a0d14;flex:none}
+.prod-mark svg{width:16px;height:16px}
+.prod-cat{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--pcs);color:var(--pc)}
+.prod-in h3{font-size:21px;margin:0 0 9px;font-weight:700;letter-spacing:-.028em;color:var(--text)}
+.prod-tag{font-size:14.5px;color:var(--text);font-weight:600;margin:0 0 9px;letter-spacing:-.012em}
+.prod-desc{font-size:14.5px;color:var(--muted);line-height:1.66;flex:1;margin:0 0 16px}
+.prod-desc b{color:var(--text);font-weight:600}
+.prod-go{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:var(--pc)}
+.prod-go svg{width:15px;height:15px;transition:transform .2s ease;flex:none}
+.prod:hover .prod-go svg{transform:translateX(3px)}
+.prod-mais{
+  display:inline-flex;align-items:center;gap:8px;margin-top:26px;font-size:14px;font-weight:600;
+  color:var(--muted);text-decoration:none;padding:10px 16px;border-radius:10px;
+  border:1px solid var(--border);background:var(--surface);transition:color .18s,border-color .18s,transform .18s;
+}
+.prod-mais:hover{color:var(--text);border-color:#3a4658;transform:translateY(-1px)}
+.prod-mais svg{width:15px;height:15px}
+
+/* mini-interface dentro do card */
+.pw{
+  border:1px solid var(--border);border-bottom:0;border-radius:10px 10px 0 0;background:#0d1219;overflow:hidden;
+  box-shadow:0 -1px 0 rgba(255,255,255,.04) inset, 0 20px 44px -26px rgba(0,0,0,.95);
+}
+.pw-bar{display:flex;align-items:center;gap:6px;padding:8px 11px;background:#0b0f17;border-bottom:1px solid var(--border-soft)}
+.pw-bar i{width:7px;height:7px;border-radius:50%;background:#232b39;display:block;flex:none}
+.pw-bar span{font-size:9.5px;color:var(--dim);margin-left:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pw-body{padding:11px}
+.pw-row{display:flex;align-items:center;gap:9px;padding:7px 9px;border:1px solid var(--border-soft);border-radius:8px;margin-bottom:6px;background:#10151e}
+.pw-row:last-child{margin-bottom:0}
+.pw-row .d{width:7px;height:7px;border-radius:50%;flex:none}
+.pw-row .t{flex:1;min-width:0;font-size:10.5px;color:var(--text);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pw-row .v{font-size:10px;color:var(--dim);flex:none;font-variant-numeric:tabular-nums}
+.pw-k{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:9px}
+.pw-k div{border:1px solid var(--border-soft);border-radius:7px;padding:6px 7px;background:#10151e;min-width:0}
+.pw-k b{display:block;font-size:12.5px;font-weight:700;color:var(--text);letter-spacing:-.025em;line-height:1.2}
+.pw-k span{display:block;font-size:7.5px;color:var(--dim);margin-top:1px;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:560px){.pw-k{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pw-slide{
+  aspect-ratio:16/9;display:grid;place-items:center;text-align:center;padding:7%;position:relative;
+  background:linear-gradient(150deg,#1c2436,#0d1119 65%);
+}
+.pw-slide::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 50% 22%,rgba(224,164,88,.22),transparent 70%)}
+.pw-slide div{position:relative;z-index:1}
+
+/* reveal — escondido só quando o JS confirma que vai animar (classe .js no <html>);
+   sem JS a página nasce visível em vez de em branco. */
+.js .rv{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.2,.7,.3,1),transform .6s cubic-bezier(.2,.7,.3,1)}
+.js .rv.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){
-  .rv{opacity:1;transform:none;transition:none}
+  .js .rv{opacity:1;transform:none;transition:none}
   html{scroll-behavior:auto}
   .dot,.caret{animation:none}
 }
 </style>
+<script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
 
@@ -336,10 +406,10 @@ footer{border-top:1px solid var(--border);padding:30px 0 44px;margin-top:20px}
       <span class="name">Orleans Samai <em>/ portfólio</em></span>
     </a>
     <nav class="links">
+      <a href="#produtos">Produtos</a>
       <a href="#sobre">Sobre</a>
       <a href="#stack">Stack</a>
       <a href="#projetos">Projetos</a>
-      <a href="projetos/">Produtos</a>
       <a href="#estudos">Estudos</a>
       <a href="#contato">Contato</a>
     </nav>
@@ -406,6 +476,159 @@ footer{border-top:1px solid var(--border);padding:30px 0 44px;margin-top:20px}
       <div class="stat rv"><b class="bl">4,9 MB</b><span>de código versionado</span></div>
       <div class="stat rv"><b>N2</b><span>nível de suporte técnico</span></div>
     </div>
+  </div>
+</section>
+
+<section id="produtos">
+  <div class="wrap">
+    <p class="eyebrow rv">Produtos</p>
+    <h2 class="title rv">Cinco sistemas prontos para uso</h2>
+    <p class="lede rv">Cada um nasceu de um problema concreto de operação e virou produto, com página própria mostrando as telas por dentro, os recursos reais e os limites do escopo.</p>
+
+    <div class="prod-grid">
+
+      <a class="prod wide rv" href="projetos/frota-lite/" style="--pc:#4d8bff;--pcs:rgba(77,139,255,.10)">
+        <div class="prod-body">
+          <div class="prod-in">
+            <div class="prod-top">
+              <span class="prod-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 17V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h1"/><path d="M14 9h4l3 4v4a1 1 0 0 1-1 1h-1"/><circle cx="6.5" cy="17.5" r="2"/><circle cx="16.5" cy="17.5" r="2"/></svg></span>
+              <span class="prod-cat">Gestão de frota</span>
+            </div>
+            <h3>Frota-Lite</h3>
+            <p class="prod-tag">Sua frota sob controle. Sem caderno, planilha ou memória.</p>
+            <p class="prod-desc">Responde numa tela a pergunta que hoje mora na cabeça do dono: <b>qual veículo precisa de manutenção agora?</b> Planos por quilometragem e por tempo, alerta antes de vencer e reprogramação automática quando o serviço é registrado.</p>
+            <div class="tags"><span class="tag">3 a 30 veículos</span><span class="tag">Alertas por km e data</span><span class="tag">Custo por veículo</span><span class="tag">Next.js + PostgreSQL</span></div>
+            <span class="prod-go">Conhecer produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></span>
+          </div>
+          <div class="prod-vis">
+            <div class="pw">
+              <div class="pw-bar"><i></i><i></i><i></i><span>Painel da frota</span></div>
+              <div class="pw-body">
+                <div class="pw-k">
+                  <div><b>12</b><span>VEÍCULOS</span></div>
+                  <div><b style="color:#f0605d">2</b><span>ATRASADOS</span></div>
+                  <div><b style="color:#e0a458">3</b><span>PRÓXIMOS</span></div>
+                  <div><b style="color:#3fb950">7</b><span>EM DIA</span></div>
+                </div>
+                <div class="pw-row"><span class="d" style="background:#f0605d"></span><span class="t">Fiorino 02 — revisão em atraso</span><span class="v">81.200 km</span></div>
+                <div class="pw-row"><span class="d" style="background:#e0a458"></span><span class="t">Van 04 — óleo em 900 km</span><span class="v">61.100 km</span></div>
+                <div class="pw-row"><span class="d" style="background:#3fb950"></span><span class="t">Van 01 — em dia</span><span class="v">30.000 km</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="prod rv" href="projetos/cota-flow/" style="--pc:#a78bfa;--pcs:rgba(167,139,250,.11)">
+        <div class="prod-vis">
+          <div class="pw">
+            <div class="pw-bar"><i></i><i></i><i></i><span>Comparação de propostas</span></div>
+            <div class="pw-body">
+              <div class="pw-row" style="border-color:rgba(63,185,80,.28);background:rgba(63,185,80,.07)"><span class="d" style="background:#3fb950"></span><span class="t">Elétrica Norte · 6 de 6</span><span class="v">R$ 4.400</span></div>
+              <div class="pw-row"><span class="d" style="background:#3fb950"></span><span class="t">Casa do Eletricista · 6 de 6</span><span class="v">R$ 4.570</span></div>
+              <div class="pw-row"><span class="d" style="background:#e0a458"></span><span class="t">Distribuidora Sul · 4 de 6</span><span class="v">R$ 3.910</span></div>
+              <div class="pw-row"><span class="d" style="background:#2b3444"></span><span class="t">Fornecedora Prime · visualizou</span><span class="v">—</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="prod-in">
+          <div class="prod-top">
+            <span class="prod-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15v3"/><path d="M12 10v8"/><path d="M17 6v12"/></svg></span>
+            <span class="prod-cat">Compras</span>
+          </div>
+          <h3>Cota-Flow</h3>
+          <p class="prod-tag">Cotações organizadas. Decisões mais rápidas.</p>
+          <p class="prod-desc">Um link individual por fornecedor — <b>ele responde sem criar conta</b> — e todas as propostas lado a lado numa tela. Proposta incompleta aparece sinalizada, nunca como se fosse a mais barata.</p>
+          <div class="tags"><span class="tag">Sem cadastro para o fornecedor</span><span class="tag">Comparação item a item</span></div>
+          <span class="prod-go">Conhecer produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></span>
+        </div>
+      </a>
+
+      <a class="prod rv" href="projetos/autoatendimento/" style="--pc:#ff8a4c;--pcs:rgba(255,138,76,.11)">
+        <div class="prod-vis">
+          <div class="pw">
+            <div class="pw-bar"><i></i><i></i><i></i><span>Fila do garçom · tempo real</span></div>
+            <div class="pw-body">
+              <div class="pw-row" style="border-color:rgba(255,138,76,.3);background:rgba(255,138,76,.08)"><span class="d" style="background:#ff8a4c"></span><span class="t">Mesa 07 · Marina · 3 itens</span><span class="v">R$ 68,00</span></div>
+              <div class="pw-row"><span class="d" style="background:#e0a458"></span><span class="t">Mesa 03 · Rafael · preparando</span><span class="v">R$ 41,00</span></div>
+              <div class="pw-row"><span class="d" style="background:#3fb950"></span><span class="t">Mesa 11 · Júlia · pronto</span><span class="v">R$ 18,00</span></div>
+              <div class="pw-row"><span class="d" style="background:#f0605d"></span><span class="t">Mesa 05 · chamando garçom</span><span class="v">40 s</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="prod-in">
+          <div class="prod-top">
+            <span class="prod-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/></svg></span>
+            <span class="prod-cat">Restaurantes</span>
+          </div>
+          <h3>Autoatendimento QR</h3>
+          <p class="prod-tag">O cliente pede pelo celular. A cozinha imprime sozinha.</p>
+          <p class="prod-desc">QR na mesa, comanda por pessoa e pedido em três toques. O garçom confirma em um clique e o cupom sai impresso na cozinha. <b>Roda na rede do salão, sem depender de internet.</b></p>
+          <div class="tags"><span class="tag">Funciona offline</span><span class="tag">Impressão ESC/POS</span><span class="tag">Instalador Windows</span></div>
+          <span class="prod-go">Conhecer produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></span>
+        </div>
+      </a>
+
+      <a class="prod rv" href="projetos/ebike-support/" style="--pc:#2dd4a7;--pcs:rgba(45,212,167,.10)">
+        <div class="prod-vis">
+          <div class="pw">
+            <div class="pw-bar"><i></i><i></i><i></i><span>Painel de atendimento</span></div>
+            <div class="pw-body">
+              <div class="pw-k">
+                <div><b style="color:#f0605d">3</b><span>SEM DONO</span></div>
+                <div><b style="color:#e0a458">7</b><span>ATENDENDO</span></div>
+                <div><b>2</b><span>AGUARDANDO</span></div>
+                <div><b style="color:#3fb950">41</b><span>RESOLVIDOS</span></div>
+              </div>
+              <div class="pw-row" style="border-color:rgba(45,212,167,.3);background:rgba(45,212,167,.07)"><span class="d" style="background:#2dd4a7"></span><span class="t">#318 Autonomia da bateria caiu</span><span class="v">City 500</span></div>
+              <div class="pw-row"><span class="d" style="background:#e0a458"></span><span class="t">#317 Freio traseiro raspando</span><span class="v">Rafael</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="prod-in">
+          <div class="prod-top">
+            <span class="prod-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg></span>
+            <span class="prod-cat">Pós-venda</span>
+          </div>
+          <h3>eBike Suporte</h3>
+          <p class="prod-tag">Cada e-bike. Cada chamado. Todo o histórico em um só lugar.</p>
+          <p class="prod-desc">O cliente cadastra a bicicleta com série, bateria, motor e nota fiscal; abre o chamado e acompanha o status sozinho. A loja atende com <b>a ficha técnica já na tela</b>.</p>
+          <div class="tags"><span class="tag">Cliente, técnico e admin</span><span class="tag">Isolamento no banco</span></div>
+          <span class="prod-go">Conhecer produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></span>
+        </div>
+      </a>
+
+      <a class="prod rv" href="projetos/church-slides/" style="--pc:#e0a458;--pcs:rgba(224,164,88,.11)">
+        <div class="prod-vis">
+          <div class="pw">
+            <div class="pw-bar"><i></i><i></i><i></i><span>Modo apresentação · slide 4 de 18</span></div>
+            <div class="pw-slide">
+              <div>
+                <div style="color:#f4f1ea;font-size:13px;line-height:1.42;letter-spacing:-.012em">“O Senhor é o meu pastor; nada me faltará.”</div>
+                <div style="color:#e0a458;font-size:8px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin-top:9px">Salmos 23:1</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="prod-in">
+          <div class="prod-top">
+            <span class="prod-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M12 17v4"/><path d="M8 21h8"/></svg></span>
+            <span class="prod-cat">Igrejas</span>
+          </div>
+          <h3>Church Slides Studio</h3>
+          <p class="prod-tag">Slides bonitos sem transformar cada culto num projeto de design.</p>
+          <p class="prod-desc">21 modelos de culto, 10 temas em um clique, biblioteca de versículos e modo apresentação com cronômetro e notas do pregador. <b>Programa instalado, 100% offline.</b></p>
+          <div class="tags"><span class="tag">Funciona offline</span><span class="tag">Exporta PDF, PNG e PPTX</span></div>
+          <span class="prod-go">Conhecer produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></span>
+        </div>
+      </a>
+
+    </div>
+
+    <a class="prod-mais rv" href="projetos/">
+      Ver os cinco numa página só
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg>
+    </a>
   </div>
 </section>
 
@@ -518,84 +741,8 @@ footer{border-top:1px solid var(--border);padding:30px 0 44px;margin-top:20px}
 <section id="projetos">
   <div class="wrap">
     <p class="eyebrow rv">Projetos</p>
-    <h2 class="title rv">Seleção do que eu construí</h2>
-    <p class="lede rv">Sistemas completos — não exercícios. Cada um resolve um problema real de suporte, infraestrutura ou operação.</p>
-
-    <a class="vitrine rv" href="projetos/">
-      <span class="vt-txt">
-        <b>Vitrine de produtos &rarr;</b>
-        <p>Cinco deles viraram produto, com página própria mostrando o problema que resolvem, as telas por dentro e os limites do escopo.</p>
-      </span>
-      <span class="btn btn-primary" style="flex:none">Conhecer os produtos</span>
-    </a>
-
-    <div class="sub-head rv"><h3>Produtos</h3><span>com página comercial</span></div>
-
-    <div class="proj-grid">
-
-      <a class="proj rv" href="projetos/frota-lite/">
-        <div class="proj-top">
-          <h3><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9 11V3H1v8h1a2 2 0 1 0 4 0h3Zm1-6h3l3 4v3h-1a2 2 0 1 0-4 0h-1V5Z"/></svg> Frota-Lite</h3>
-          <span class="badge prod">Produto</span>
-        </div>
-        <p>Controle de manutenção para frotas de <b>3 a 30 veículos</b>. Planos por quilometragem e por tempo, alerta antes de vencer e reprogramação automática da próxima revisão.</p>
-        <div class="tags"><span class="tag">Next.js 16</span><span class="tag">TypeScript</span><span class="tag">PostgreSQL + RLS</span><span class="tag">242 testes</span></div>
-        <div class="proj-foot">Ver página do produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></div>
-      </a>
-
-      <a class="proj rv" href="projetos/cota-flow/">
-        <div class="proj-top">
-          <h3><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.5 1a.5.5 0 0 1 .5.5V13h13a.5.5 0 0 1 0 1H1.5a.5.5 0 0 1-.5-.5v-12A.5.5 0 0 1 1.5 1Zm3 8h2v3h-2V9Zm3.5-3h2v6H8V6Zm3.5-3h2v9h-2V3Z"/></svg> Cota-Flow</h3>
-          <span class="badge prod">Produto</span>
-        </div>
-        <p>Cotações de compra do pedido à decisão. Cada fornecedor responde por um <b>link individual, sem criar conta</b>, e as propostas aparecem lado a lado com os itens faltantes sinalizados.</p>
-        <div class="tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">PostgreSQL</span><span class="tag">Drizzle ORM</span></div>
-        <div class="proj-foot">Ver página do produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></div>
-      </a>
-
-      <a class="proj rv" href="projetos/autoatendimento/">
-        <div class="proj-top">
-          <h3><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 1h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2Zm2 3v2h2V4H5Zm4 0v2h2V4H9ZM5 8v2h2V8H5Zm4 0v2h2V8H9Z"/></svg> Autoatendimento QR</h3>
-          <span class="badge prod">Produto</span>
-        </div>
-        <p>O cliente pede pelo celular, o garçom confirma em um clique e a cozinha imprime sozinha em <b>ESC/POS</b>. Comanda por pessoa e operação que funciona <b>sem internet</b>.</p>
-        <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Socket.IO</span><span class="tag">PWA</span><span class="tag">Instalador Windows</span></div>
-        <div class="proj-foot">Ver página do produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></div>
-      </a>
-
-      <a class="proj rv" href="projetos/ebike-support/">
-        <div class="proj-top">
-          <h3><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="3.6" cy="11.6" r="3.1"/><circle cx="12.4" cy="11.6" r="3.1"/><path d="M8 11.6V9L6 7l2.6-2 1.4 2h1.6"/><circle cx="11" cy="3" r=".9"/></svg> eBike Suporte</h3>
-          <span class="badge prod">Produto</span>
-        </div>
-        <p>Pós-venda para lojas de bicicletas elétricas: ficha técnica por bicicleta, chamados com dono e status, fotos e nota fiscal anexadas — com <b>isolamento por cliente garantido no banco</b>.</p>
-        <div class="tags"><span class="tag">Next.js 16</span><span class="tag">TypeScript</span><span class="tag">PostgreSQL 17 + RLS</span><span class="tag">Vitest</span></div>
-        <div class="proj-foot">Ver página do produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></div>
-      </a>
-
-      <a class="proj rv" href="projetos/church-slides/">
-        <div class="proj-top">
-          <h3><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.75 1h12.5A1.75 1.75 0 0 1 16 2.75v8.5A1.75 1.75 0 0 1 14.25 13H9v1.5h2.25a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5H7V13H1.75A1.75 1.75 0 0 1 0 11.25v-8.5A1.75 1.75 0 0 1 1.75 1Z"/></svg> Church Slides Studio</h3>
-          <span class="badge prod">Produto</span>
-        </div>
-        <p>Editor de apresentações para igrejas, <b>100% offline</b> e instalável: 21 modelos de culto, 10 temas, biblioteca de versículos, modo apresentação e exportação em PDF, PNG e PPTX.</p>
-        <div class="tags"><span class="tag">TypeScript</span><span class="tag">React</span><span class="tag">Electron</span><span class="tag">Vite</span></div>
-        <div class="proj-foot">Ver página do produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></div>
-      </a>
-
-      <a class="proj rv" href="https://github.com/orleanss777-sys/church-slides-studio" target="_blank" rel="noopener">
-        <div class="proj-top">
-          <h3><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg> Código do Church Slides</h3>
-          <span class="badge pub">Público</span>
-        </div>
-        <p>O único produto com o código aberto no GitHub — dá para ler por dentro a arquitetura do editor, a exportação e o modo de apresentação.</p>
-        <div class="tags"><span class="tag">Repositório público</span><span class="tag">TypeScript</span><span class="tag">Electron</span></div>
-        <div class="proj-foot">Ver no GitHub <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></div>
-      </a>
-
-    </div>
-
-    <div class="sub-head rv"><h3>Outros projetos</h3><span>infraestrutura, suporte e ferramentas internas</span></div>
+    <h2 class="title rv">Outros projetos que construí</h2>
+    <p class="lede rv">Fora os cinco produtos, estes são os sistemas de infraestrutura, suporte e ferramentas internas que saíram do papel.</p>
 
     <div class="proj-grid">
 
@@ -763,7 +910,23 @@ footer{border-top:1px solid var(--border);padding:30px 0 44px;margin-top:20px}
       io.observe(el);
     });
 
-    var sections = ['sobre','stack','projetos','estudos','contato'];
+    var revelarVisiveis = function(){
+      var vh = window.innerHeight;
+      Array.prototype.forEach.call(reveals, function(el){
+        if (el.classList.contains('in')) return;
+        if (el.getBoundingClientRect().top < vh * 1.15) el.classList.add('in');
+      });
+    };
+    window.setTimeout(revelarVisiveis, 1400);
+
+    var agendado = false;
+    window.addEventListener('scroll', function(){
+      if (agendado) return;
+      agendado = true;
+      window.requestAnimationFrame(function(){ agendado = false; revelarVisiveis(); });
+    }, {passive:true});
+
+    var sections = ['produtos','sobre','stack','projetos','estudos','contato'];
     var navLinks = {};
     sections.forEach(function(id){
       var a = document.querySelector('nav.links a[href="#' + id + '"]');
