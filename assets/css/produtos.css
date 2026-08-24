@@ -200,8 +200,8 @@ p{margin:0}
 .mk-nav .on i{opacity:.9}
 .mk-main{padding:18px 20px;min-width:0;background:#fff}
 .mk-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-.mk-h b{font-size:14.5px;color:var(--ink);letter-spacing:-.02em}
-.mk-h small{font-size:11.5px;color:var(--ink-4)}
+.mk-h b{font-size:14.5px;color:var(--ink);letter-spacing:-.02em;white-space:nowrap}
+.mk-h small{font-size:11.5px;color:var(--ink-4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media(max-width:620px){.mk-app{grid-template-columns:1fr}.mk-side{display:none}.mk-main{padding:14px}}
 
 /* KPIs dentro do mockup */
