@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Produtos | Orleans Samai — software para operações reais</title>
+<meta name="description" content="Cinco produtos digitais prontos para uso: controle de manutenção de frota, cotações de compra, autoatendimento por QR code em restaurantes, pós-venda de bicicletas elétricas e apresentações para igrejas.">
+<link rel="canonical" href="https://orleanss777-sys.github.io/projetos/">
+<meta name="theme-color" content="#111827">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23111827'/><text y='68' x='50' font-size='50' text-anchor='middle' fill='%23e0864f' font-family='monospace' font-weight='bold'>OS</text></svg>">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Orleans Samai · Produtos">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Produtos | Orleans Samai — software para operações reais">
+<meta property="og:description" content="Cinco sistemas completos, cada um resolvendo um problema específico de operação: frota, compras, restaurante, pós-venda e igreja.">
+<meta property="og:url" content="https://orleanss777-sys.github.io/projetos/">
+<meta name="twitter:card" content="summary">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/produtos.css">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --accent:#111827;
+    --accent-ink:#111827;
+    --accent-soft:rgba(17,24,39,.06);
+    --accent-line:rgba(17,24,39,.14);
+  }
+  .hero::before{
+    background:
+      radial-gradient(720px 380px at 16% 30%, rgba(37,99,235,.10), transparent 64%),
+      radial-gradient(660px 360px at 84% 8%, rgba(180,83,9,.09), transparent 62%),
+      radial-gradient(560px 340px at 52% 76%, rgba(5,150,105,.07), transparent 66%);
+  }
+  .vt-hero{max-width:760px}
+  .vt-hero h1{margin:18px 0 22px}
+
+  /* ---------- grade de produtos ---------- */
+  .vt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  @media(max-width:900px){.vt-grid{grid-template-columns:1fr}}
+  .vt-card{
+    display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--radius-lg);
+    background:#fff;overflow:hidden;box-shadow:var(--sh-1);
+    transition:transform .24s var(--ease),box-shadow .24s var(--ease),border-color .24s;
+  }
+  .vt-card:hover{transform:translateY(-5px);box-shadow:var(--sh-3);border-color:#dcdfe6}
+  .vt-card.wide{grid-column:1 / -1}
+  @media(max-width:900px){.vt-card.wide{grid-column:auto}}
+
+  .vt-vis{position:relative;padding:26px 26px 0;overflow:hidden;min-height:200px}
+  .vt-vis::before{content:"";position:absolute;inset:0;background:var(--pv-bg)}
+  .vt-inner{position:relative;z-index:1}
+  .vt-card.wide .vt-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:0}
+  .vt-card.wide .vt-vis{min-height:250px;padding:30px 30px 0}
+  @media(max-width:900px){.vt-card.wide .vt-body{grid-template-columns:1fr}}
+
+  .vt-in{padding:24px 26px 26px;display:flex;flex-direction:column;flex:1}
+  .vt-top{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .vt-mark{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;color:#fff;flex:none}
+  .vt-mark svg{width:17px;height:17px}
+  .vt-cat{
+    font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+    padding:3.5px 9px;border-radius:999px;
+  }
+  .vt-in h3{font-size:21px;letter-spacing:-.028em;margin-bottom:9px}
+  .vt-tag{font-size:14px;color:var(--ink-2);font-weight:600;margin-bottom:9px;letter-spacing:-.012em}
+  .vt-in p{font-size:14.5px;color:var(--ink-3);line-height:1.68;flex:1;margin-bottom:18px}
+  .vt-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+  .vt-meta span{font-size:11.5px;padding:4px 10px;border-radius:7px;background:var(--bg-soft);color:var(--ink-3);border:1px solid var(--line-soft)}
+  .vt-btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;align-self:flex-start;
+    font-size:14px;font-weight:600;padding:10px 18px;border-radius:10px;color:#fff;
+    transition:transform .18s var(--ease),box-shadow .18s var(--ease),filter .18s;
+  }
+  .vt-btn svg{width:15px;height:15px;transition:transform .2s var(--ease)}
+  .vt-card:hover .vt-btn{transform:translateY(-1.5px)}
+  .vt-card:hover .vt-btn svg{transform:translateX(3px)}
+
+  /* mini-interfaces dos cards */
+  .pv{border-radius:10px 10px 0 0;border:1px solid var(--line);border-bottom:0;background:#fff;
+    box-shadow:0 -1px 0 rgba(255,255,255,.6) inset, 0 18px 40px -22px rgba(16,24,40,.5);overflow:hidden}
+  .pv-bar{display:flex;align-items:center;gap:6px;padding:8px 11px;background:#fbfbfd;border-bottom:1px solid var(--line-soft)}
+  .pv-bar i{width:7px;height:7px;border-radius:50%;display:block;background:#dfe3ea;flex:none}
+  .pv-bar span{font-size:9.5px;color:var(--ink-4);margin-left:5px;font-family:"JetBrains Mono",monospace;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pv-body{padding:12px}
+  .pv-row{display:flex;align-items:center;gap:9px;padding:7px 9px;border:1px solid var(--line-soft);
+    border-radius:8px;margin-bottom:6px;background:#fff}
+  .pv-row:last-child{margin-bottom:0}
+  .pv-row .d{width:7px;height:7px;border-radius:50%;flex:none}
+  .pv-row .t{flex:1;min-width:0;font-size:10.5px;color:var(--ink);font-weight:600;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pv-row .v{font-size:10px;color:var(--ink-4);font-family:"JetBrains Mono",monospace;flex:none}
+  .pv-k{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:9px}
+  .pv-k div{border:1px solid var(--line-soft);border-radius:7px;padding:6px 7px;text-align:left}
+  .pv-k b{display:block;font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.2}
+  .pv-k span{display:block;font-size:7.5px;color:var(--ink-4);letter-spacing:.05em;margin-top:1px}
+
+  /* faixa de método */
+  .vt-how{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:820px){.vt-how{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="pnav">
+  <div class="wrap pnav-in">
+    <a class="pbrand" href="../">
+      <span class="pmark mono" style="font-size:12px;font-weight:700">&gt;_</span>
+      <span class="pbrand-txt"><b>Orleans Samai</b><small>Produtos digitais</small></span>
+    </a>
+    <nav class="pnav-links">
+      <a href="#produtos">Produtos</a>
+      <a href="#metodo">Como eu trabalho</a>
+      <a href="../">Portfólio</a>
+    </nav>
+    <div class="pnav-right">
+      <a class="btn btn-p" href="mailto:orleanssamai128@gmail.com?subject=Quero%20conhecer%20as%20solu%C3%A7%C3%B5es&amp;body=Ol%C3%A1%2C%20Orleans.%20Vi%20sua%20vitrine%20de%20produtos%20e%20gostaria%20de%20conversar.%0A%0AEmpresa%3A%0AProduto%20de%20interesse%3A%0AMelhor%20hor%C3%A1rio%20para%20contato%3A">Falar comigo</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ════════════════ HERO ════════════════ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="vt-hero">
+      <span class="pill rv" style="border-color:var(--line);background:#fff;color:var(--ink-3);box-shadow:var(--sh-1)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink)"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Cinco sistemas prontos para uso
+      </span>
+      <h1 class="rv">Software para operações reais, não para apresentação de slide.</h1>
+      <p class="sub rv" style="max-width:60ch">
+        Cada produto aqui nasceu de um problema concreto: uma frota controlada num caderno, uma cotação
+        montada à mão em cinco e-mails, um salão sem garçom no pico. São <strong>sistemas completos</strong> —
+        com regras de negócio, controle de acesso e testes — não protótipos de vitrine.
+      </p>
+      <div class="btn-row rv">
+        <a class="btn btn-p btn-lg" href="#produtos">
+          Ver os produtos
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-s btn-lg" href="mailto:orleanssamai128@gmail.com?subject=Quero%20conhecer%20as%20solu%C3%A7%C3%B5es">Solicitar demonstração</a>
+      </div>
+    </div>
+
+    <div class="stats" style="margin-top:56px">
+      <div class="stat rv" style="background:#fff;border-color:var(--line)"><b style="color:#2563eb">5</b><span>produtos em operação</span></div>
+      <div class="stat rv" style="background:#fff;border-color:var(--line)"><b style="color:#7c3aed">5</b><span>setores atendidos</span></div>
+      <div class="stat rv" style="background:#fff;border-color:var(--line)"><b style="color:#059669">100%</b><span>construídos do zero</span></div>
+      <div class="stat rv" style="background:#fff;border-color:var(--line)"><b style="color:#b45309">2</b><span>rodam sem internet</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PRODUTOS ════════════════ -->
+<section class="sec sec-soft" id="produtos">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Vitrine</span>
+      <h2>Cada um resolve um problema específico</h2>
+      <p>Escolha o que se parece com a sua operação — cada página mostra as telas, os recursos reais e os limites do escopo.</p>
+    </div>
+
+    <div class="vt-grid">
+
+      <!-- FROTA-LITE (destaque) -->
+      <article class="vt-card wide rv" style="--pv-bg:linear-gradient(150deg,rgba(37,99,235,.13),rgba(37,99,235,.02))">
+        <div class="vt-body">
+          <div class="vt-in">
+            <div class="vt-top">
+              <span class="vt-mark" style="background:#2563eb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 17V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h1"/><path d="M14 9h4l3 4v4a1 1 0 0 1-1 1h-1"/><circle cx="6.5" cy="17.5" r="2"/><circle cx="16.5" cy="17.5" r="2"/></svg></span>
+              <span class="vt-cat" style="background:rgba(37,99,235,.10);color:#1d4ed8">Gestão de frota</span>
+            </div>
+            <h3>Frota-Lite</h3>
+            <p class="vt-tag">Sua frota sob controle. Sem caderno, planilha ou memória.</p>
+            <p>Responde numa tela a pergunta que hoje mora na cabeça do dono: <b>qual veículo precisa de manutenção agora?</b> Planos por quilometragem e por tempo, alerta antes de vencer e reprogramação automática quando o serviço é registrado.</p>
+            <div class="vt-meta">
+              <span>3 a 30 veículos</span><span>Alertas por km e por data</span><span>Custo por veículo</span><span>Anexos e histórico</span>
+            </div>
+            <a class="vt-btn" href="frota-lite/" style="background:#2563eb;box-shadow:0 8px 18px -10px #2563eb">
+              Conhecer projeto
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+          <div class="vt-vis">
+            <div class="vt-inner pv">
+              <div class="pv-bar"><i></i><i></i><i></i><span>Painel da frota</span></div>
+              <div class="pv-body">
+                <div class="pv-k">
+                  <div><b>12</b><span>VEÍCULOS</span></div>
+                  <div><b style="color:#c8322f">2</b><span>ATRASADOS</span></div>
+                  <div><b style="color:#b45309">3</b><span>PRÓXIMOS</span></div>
+                  <div><b style="color:#12805c">7</b><span>EM DIA</span></div>
+                </div>
+                <div class="pv-row"><span class="d" style="background:#c8322f"></span><span class="t">Fiorino 02 — revisão em atraso</span><span class="v">81.200 km</span></div>
+                <div class="pv-row"><span class="d" style="background:#b45309"></span><span class="t">Van 04 — óleo em 900 km</span><span class="v">61.100 km</span></div>
+                <div class="pv-row"><span class="d" style="background:#12805c"></span><span class="t">Van 01 — em dia</span><span class="v">30.000 km</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- COTA-FLOW -->
+      <article class="vt-card rv" style="--pv-bg:linear-gradient(150deg,rgba(124,58,237,.13),rgba(124,58,237,.02))">
+        <div class="vt-vis">
+          <div class="vt-inner pv">
+            <div class="pv-bar"><i></i><i></i><i></i><span>Comparação de propostas</span></div>
+            <div class="pv-body">
+              <div class="pv-row" style="background:#e7f5ef;border-color:rgba(18,128,92,.2)"><span class="d" style="background:#12805c"></span><span class="t">Elétrica Norte · 6 de 6</span><span class="v">R$ 4.400</span></div>
+              <div class="pv-row"><span class="d" style="background:#12805c"></span><span class="t">Casa do Eletricista · 6 de 6</span><span class="v">R$ 4.570</span></div>
+              <div class="pv-row"><span class="d" style="background:#b45309"></span><span class="t">Distribuidora Sul · 4 de 6</span><span class="v">R$ 3.910</span></div>
+              <div class="pv-row"><span class="d" style="background:#dfe3ea"></span><span class="t">Fornecedora Prime · visualizou</span><span class="v">—</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="vt-in">
+          <div class="vt-top">
+            <span class="vt-mark" style="background:#7c3aed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15v3"/><path d="M12 10v8"/><path d="M17 6v12"/></svg></span>
+            <span class="vt-cat" style="background:rgba(124,58,237,.10);color:#6d28d9">Compras</span>
+          </div>
+          <h3>Cota-Flow</h3>
+          <p class="vt-tag">Cotações organizadas. Decisões mais rápidas.</p>
+          <p>Um link individual por fornecedor — <b>ele responde sem criar conta</b> — e todas as propostas lado a lado numa tela. Proposta incompleta aparece sinalizada, nunca como se fosse a mais barata.</p>
+          <div class="vt-meta">
+            <span>Sem cadastro para o fornecedor</span><span>Comparação item a item</span><span>Status de cada convite</span>
+          </div>
+          <a class="vt-btn" href="cota-flow/" style="background:#7c3aed;box-shadow:0 8px 18px -10px #7c3aed">
+            Conhecer projeto
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- AUTOATENDIMENTO -->
+      <article class="vt-card rv" style="--pv-bg:linear-gradient(150deg,rgba(234,88,12,.13),rgba(234,88,12,.02))">
+        <div class="vt-vis">
+          <div class="vt-inner pv">
+            <div class="pv-bar"><i></i><i></i><i></i><span>Fila do garçom · tempo real</span></div>
+            <div class="pv-body">
+              <div class="pv-row" style="background:rgba(234,88,12,.07);border-color:rgba(234,88,12,.24)"><span class="d" style="background:#ea580c"></span><span class="t">Mesa 07 · Marina · 3 itens</span><span class="v">R$ 68,00</span></div>
+              <div class="pv-row"><span class="d" style="background:#b45309"></span><span class="t">Mesa 03 · Rafael · preparando</span><span class="v">R$ 41,00</span></div>
+              <div class="pv-row"><span class="d" style="background:#12805c"></span><span class="t">Mesa 11 · Júlia · pronto</span><span class="v">R$ 18,00</span></div>
+              <div class="pv-row"><span class="d" style="background:#c8322f"></span><span class="t">Mesa 05 · chamando garçom</span><span class="v">40 s</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="vt-in">
+          <div class="vt-top">
+            <span class="vt-mark" style="background:#ea580c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/></svg></span>
+            <span class="vt-cat" style="background:rgba(234,88,12,.10);color:#c2410c">Restaurantes</span>
+          </div>
+          <h3>Autoatendimento QR</h3>
+          <p class="vt-tag">O cliente pede pelo celular. A cozinha imprime sozinha.</p>
+          <p>QR na mesa, comanda por pessoa e pedido em três toques. O garçom confirma em um clique e o cupom sai impresso na cozinha. <b>Roda na rede do salão, sem depender de internet.</b></p>
+          <div class="vt-meta">
+            <span>Funciona offline</span><span>Impressão ESC/POS</span><span>Comanda nominal</span><span>Instalador Windows</span>
+          </div>
+          <a class="vt-btn" href="autoatendimento/" style="background:#ea580c;box-shadow:0 8px 18px -10px #ea580c">
+            Conhecer projeto
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- EBIKE -->
+      <article class="vt-card rv" style="--pv-bg:linear-gradient(150deg,rgba(5,150,105,.13),rgba(5,150,105,.02))">
+        <div class="vt-vis">
+          <div class="vt-inner pv">
+            <div class="pv-bar"><i></i><i></i><i></i><span>Painel de atendimento</span></div>
+            <div class="pv-body">
+              <div class="pv-k">
+                <div><b style="color:#c8322f">3</b><span>SEM DONO</span></div>
+                <div><b style="color:#b45309">7</b><span>ATENDENDO</span></div>
+                <div><b>2</b><span>AGUARDANDO</span></div>
+                <div><b style="color:#12805c">41</b><span>RESOLVIDOS</span></div>
+              </div>
+              <div class="pv-row" style="background:rgba(5,150,105,.06);border-color:rgba(5,150,105,.22)"><span class="d" style="background:#059669"></span><span class="t">#318 Autonomia da bateria caiu</span><span class="v">City 500</span></div>
+              <div class="pv-row"><span class="d" style="background:#b45309"></span><span class="t">#317 Freio traseiro raspando</span><span class="v">Rafael</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="vt-in">
+          <div class="vt-top">
+            <span class="vt-mark" style="background:#059669"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg></span>
+            <span class="vt-cat" style="background:rgba(5,150,105,.10);color:#047857">Pós-venda</span>
+          </div>
+          <h3>eBike Suporte</h3>
+          <p class="vt-tag">Cada e-bike. Cada chamado. Todo o histórico em um só lugar.</p>
+          <p>O cliente cadastra a bicicleta com série, bateria, motor e nota fiscal; abre o chamado e acompanha o status sozinho. A loja atende com <b>a ficha técnica já na tela</b>.</p>
+          <div class="vt-meta">
+            <span>Cliente, técnico e admin</span><span>Fotos e nota anexadas</span><span>Status com regras no banco</span>
+          </div>
+          <a class="vt-btn" href="ebike-support/" style="background:#059669;box-shadow:0 8px 18px -10px #059669">
+            Conhecer projeto
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- CHURCH SLIDES -->
+      <article class="vt-card rv" style="--pv-bg:linear-gradient(150deg,rgba(180,83,9,.14),rgba(180,83,9,.02))">
+        <div class="vt-vis">
+          <div class="vt-inner pv" style="border-color:#1d2230;background:#0d1119">
+            <div class="pv-bar" style="background:#0b0e16;border-color:#1b2130"><i style="background:#242b3a"></i><i style="background:#242b3a"></i><i style="background:#242b3a"></i><span style="color:#6f7789">Modo apresentação · slide 4 de 18</span></div>
+            <div class="pv-body" style="padding:0">
+              <div style="aspect-ratio:16/9;display:grid;place-items:center;text-align:center;padding:7%;
+                          background:linear-gradient(150deg,#1c2436,#0d1119 65%);position:relative">
+                <div style="position:absolute;inset:0;background:radial-gradient(70% 60% at 50% 22%,rgba(180,83,9,.24),transparent 70%)"></div>
+                <div style="position:relative;z-index:1">
+                  <div style="color:#f4f1ea;font-size:13px;line-height:1.42;letter-spacing:-.012em">“O Senhor é o meu pastor; nada me faltará.”</div>
+                  <div style="color:#e0a458;font-size:8px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin-top:9px">Salmos 23:1</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="vt-in">
+          <div class="vt-top">
+            <span class="vt-mark" style="background:#b45309"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M12 17v4"/><path d="M8 21h8"/></svg></span>
+            <span class="vt-cat" style="background:rgba(180,83,9,.10);color:#92400e">Igrejas</span>
+          </div>
+          <h3>Church Slides Studio</h3>
+          <p class="vt-tag">Slides bonitos sem transformar cada culto num projeto de design.</p>
+          <p>21 modelos de culto, 10 temas em um clique, biblioteca de versículos e modo apresentação com cronômetro e notas do pregador. <b>Programa instalado, 100% offline.</b></p>
+          <div class="vt-meta">
+            <span>Funciona offline</span><span>Exporta PDF, PNG e PPTX</span><span>Identidade da igreja</span>
+          </div>
+          <a class="vt-btn" href="church-slides/" style="background:#b45309;box-shadow:0 8px 18px -10px #b45309">
+            Conhecer projeto
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ MÉTODO ════════════════ -->
+<section class="sec" id="metodo">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Como eu trabalho</span>
+      <h2>Três compromissos que valem para os cinco produtos</h2>
+      <p>São as mesmas decisões em todos eles — e é o que separa um sistema em uso de uma demonstração bonita.</p>
+    </div>
+
+    <div class="vt-how">
+      <div class="card rv">
+        <div class="ic" style="background:rgba(17,24,39,.05);border-color:var(--line)">🎯</div>
+        <h3>Escopo declarado, sem letra miúda</h3>
+        <p>Toda página diz o que o produto <b>não</b> faz. Frota-Lite não controla combustível; Cota-Flow não dispara e-mail; o Autoatendimento não emite nota fiscal. Descobrir isso na implantação custa caro para os dois lados.</p>
+      </div>
+      <div class="card rv">
+        <div class="ic" style="background:rgba(17,24,39,.05);border-color:var(--line)">🔒</div>
+        <h3>Regra no banco, não só na tela</h3>
+        <p>Separação entre empresas, transições de status e limites de valor são garantidos pelo próprio banco de dados. Se um dia a tela tiver um bug, o dado continua protegido.</p>
+      </div>
+      <div class="card rv">
+        <div class="ic" style="background:rgba(17,24,39,.05);border-color:var(--line)">🧪</div>
+        <h3>Testado antes de entregar</h3>
+        <p>Suítes automatizadas cobrindo as regras de negócio e cenários de acesso indevido — incluindo um cliente tentando alcançar o dado de outro. Rodam a cada alteração.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CTA ════════════════ -->
+<section class="sec sec-sm">
+  <div class="wrap">
+    <div class="cta rv">
+      <h2>Algum deles se parece com o seu problema?</h2>
+      <p>Marque uma conversa de 20 minutos. Mostro o sistema funcionando e digo com franqueza se ele resolve o seu caso — ou se não resolve.</p>
+      <div class="btn-row">
+        <a class="btn btn-w btn-lg" href="mailto:orleanssamai128@gmail.com?subject=Quero%20conhecer%20as%20solu%C3%A7%C3%B5es&amp;body=Ol%C3%A1%2C%20Orleans.%20Vi%20sua%20vitrine%20de%20produtos%20e%20gostaria%20de%20conversar.%0A%0AEmpresa%3A%0AProduto%20de%20interesse%3A%0AMelhor%20hor%C3%A1rio%20para%20contato%3A">
+          Solicitar demonstração
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-o btn-lg" href="../">Ver o portfólio completo</a>
+      </div>
+      <p class="cta-fine">Resposta em até um dia útil · Sem compromisso</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pfoot">
+  <div class="wrap">
+    <div class="pfoot-in">
+      <div class="pfoot-brand">
+        <b>Orleans Samai</b>
+        <p>Produtos digitais para operações que cresceram além da planilha — construídos, documentados e testados.</p>
+      </div>
+      <div class="pfoot-cols">
+        <div class="pfoot-col">
+          <b>Produtos</b>
+          <a href="frota-lite/">Frota-Lite</a>
+          <a href="cota-flow/">Cota-Flow</a>
+          <a href="autoatendimento/">Autoatendimento QR</a>
+          <a href="ebike-support/">eBike Suporte</a>
+          <a href="church-slides/">Church Slides Studio</a>
+        </div>
+        <div class="pfoot-col">
+          <b>Navegar</b>
+          <a href="./">Todos os produtos</a>
+          <a href="../">Portfólio</a>
+          <a href="https://github.com/orleanss777-sys" target="_blank" rel="noopener">GitHub</a>
+          <a href="mailto:orleanssamai128@gmail.com">Contato</a>
+        </div>
+      </div>
+    </div>
+    <div class="pfoot-bot">
+      <span>© <span data-year>2026</span> Orleans Samai. Todos os direitos reservados.</span>
+      <span>Analista de Suporte Técnico N2 · Cloud Network Engineering</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/produtos.js" defer></script>
+</body>
+</html>

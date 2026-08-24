@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Church Slides Studio | Apresentações prontas para o culto</title>
+<meta name="description" content="Editor offline de slides para igrejas: 21 modelos de culto, 10 temas, biblioteca de versículos, modo apresentação com cronômetro e notas, e exportação para PDF, PNG e PowerPoint. Roda 100% no computador da igreja.">
+<link rel="canonical" href="https://orleanss777-sys.github.io/projetos/church-slides/">
+<meta name="theme-color" content="#b45309">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23b45309'/><rect x='22' y='30' width='56' height='34' rx='4' fill='white'/><rect x='46' y='64' width='8' height='9' fill='white'/></svg>">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Orleans Samai · Produtos">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Church Slides Studio | Apresentações prontas para o culto">
+<meta property="og:description" content="Slides bonitos sem transformar cada domingo num projeto de design. Modelos, temas, versículos e modo apresentação — tudo offline.">
+<meta property="og:url" content="https://orleanss777-sys.github.io/projetos/church-slides/">
+<meta name="twitter:card" content="summary">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Fraunces:opsz,wght@9..144,400;9..144,600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/produtos.css">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --accent:#b45309;
+    --accent-ink:#92400e;
+    --accent-soft:rgba(180,83,9,.10);
+    --accent-line:rgba(180,83,9,.24);
+  }
+  .serif{font-family:"Fraunces","Iowan Old Style",Georgia,serif}
+
+  /* ---------- o telão ---------- */
+  .cs-hall{
+    position:relative;border-radius:20px;padding:26px 26px 30px;
+    background:linear-gradient(175deg,#131720 0%,#090b11 70%);
+    border:1px solid #1d2230;box-shadow:var(--sh-4);
+  }
+  .cs-hall::after{
+    content:"";position:absolute;left:12%;right:12%;bottom:9px;height:22px;border-radius:50%;
+    background:radial-gradient(ellipse at center,rgba(180,83,9,.30),transparent 70%);filter:blur(7px);
+  }
+  .cs-screen{
+    aspect-ratio:16/9;border-radius:10px;overflow:hidden;position:relative;
+    box-shadow:0 0 0 1px rgba(255,255,255,.07), 0 20px 60px -20px rgba(180,83,9,.45);
+  }
+  .cs-slide{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:8%}
+  .cs-slide.verse{background:linear-gradient(150deg,#1c2436,#0d1119 65%)}
+  .cs-slide.verse::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(70% 60% at 50% 22%,rgba(180,83,9,.22),transparent 70%);
+  }
+  .cs-slide .inner{position:relative;z-index:1;max-width:88%}
+  .cs-slide .txt{
+    color:#f4f1ea;font-size:clamp(13px,2.05vw,25px);line-height:1.42;letter-spacing:-.012em;
+    text-shadow:0 2px 18px rgba(0,0,0,.55);
+  }
+  .cs-slide .ref{
+    display:block;margin-top:clamp(9px,1.5vw,20px);color:#e0a458;
+    font-size:clamp(9px,1.05vw,13px);letter-spacing:.2em;text-transform:uppercase;font-weight:600;
+  }
+  .cs-hall-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px}
+  .cs-hall-foot .who{display:flex;align-items:center;gap:9px;color:#7e8798;font-size:11.5px}
+  .cs-hall-foot .who i{width:7px;height:7px;border-radius:50%;background:#3fb950;display:block;flex:none}
+  .cs-hall-foot .keys{display:flex;gap:5px}
+  .cs-hall-foot .keys span{
+    font-size:9.5px;color:#8b93a4;border:1px solid #232939;border-radius:5px;padding:2px 7px;
+    font-family:"JetBrains Mono",monospace;background:rgba(255,255,255,.02);
+  }
+
+  /* ---------- galeria de slides ---------- */
+  .cs-gal{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:860px){.cs-gal{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.cs-gal{grid-template-columns:1fr}}
+  .cs-card{border-radius:13px;overflow:hidden;border:1px solid var(--line);background:#fff;box-shadow:var(--sh-2);
+    transition:transform .22s var(--ease),box-shadow .22s var(--ease)}
+  .cs-card:hover{transform:translateY(-4px);box-shadow:var(--sh-3)}
+  .cs-mini{aspect-ratio:16/9;display:grid;place-items:center;text-align:center;padding:9%;position:relative;overflow:hidden}
+  .cs-mini b{position:relative;z-index:1;display:block;line-height:1.28}
+  .cs-mini small{position:relative;z-index:1;display:block;margin-top:6px;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;opacity:.82}
+  .cs-cap{padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+    font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line-soft)}
+  .cs-cap b{color:var(--ink);font-size:13px;font-weight:600}
+
+  /* temas dos mini-slides */
+  .t-elegante{background:linear-gradient(150deg,#1b2030,#0c0f16);color:#f2ede3}
+  .t-elegante b{font-size:clamp(11px,1.5vw,16px)}
+  .t-dourado{background:linear-gradient(150deg,#2a1f0d,#120c04);color:#f6e2bd}
+  .t-dourado b{font-size:clamp(11px,1.5vw,16px)}
+  .t-clean{background:linear-gradient(150deg,#fdfcfa,#f1eee7);color:#1d2430}
+  .t-clean b{font-size:clamp(11px,1.5vw,16px)}
+  .t-juventude{background:linear-gradient(150deg,#2d1b52,#151029);color:#ece5ff}
+  .t-juventude b{font-size:clamp(11px,1.5vw,16px)}
+  .t-azul{background:linear-gradient(150deg,#0f2a4a,#08111f);color:#e4eefb}
+  .t-azul b{font-size:clamp(11px,1.5vw,16px)}
+  .t-minimal{background:#fff;color:#12151c;border-bottom:1px solid var(--line-soft)}
+  .t-minimal b{font-size:clamp(11px,1.5vw,16px)}
+
+  /* ---------- editor ---------- */
+  .cs-editor{display:grid;grid-template-columns:78px 1fr 148px;min-height:0;background:#0e121b}
+  .cs-thumbs{padding:9px;display:flex;flex-direction:column;gap:7px;border-right:1px solid #1b2130;background:#0b0e16}
+  .cs-thumb{aspect-ratio:16/9;border-radius:5px;display:grid;place-items:center;font-size:7.5px;color:#7e8798;
+    background:#151a26;border:1px solid #1e2432}
+  .cs-thumb.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+  .cs-stage{padding:16px;display:grid;place-items:center;background:
+    linear-gradient(#0e121b,#0e121b) padding-box,
+    repeating-conic-gradient(#141926 0% 25%, #10141e 0% 50%) 0/16px 16px}
+  .cs-props{padding:11px;border-left:1px solid #1b2130;background:#0b0e16;display:flex;flex-direction:column;gap:8px}
+  .cs-props .lbl{font-size:8.5px;letter-spacing:.11em;text-transform:uppercase;color:#5f6879}
+  .cs-props .fld{border:1px solid #1e2432;border-radius:6px;padding:5px 8px;font-size:10px;color:#c3cad6;background:#131824}
+  .cs-props .sw{display:flex;gap:5px}
+  .cs-props .sw i{width:17px;height:17px;border-radius:5px;display:block;border:1px solid #232937}
+  @media(max-width:760px){.cs-editor{grid-template-columns:1fr}.cs-thumbs,.cs-props{display:none}}
+</style>
+</head>
+<body>
+
+<header class="pnav">
+  <div class="wrap pnav-in">
+    <a class="pbrand" href="../">
+      <span class="pmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M12 17v4"/><path d="M8 21h8"/></svg></span>
+      <span class="pbrand-txt"><b>Church Slides Studio</b><small>Apresentações para cultos e eventos</small></span>
+    </a>
+    <nav class="pnav-links">
+      <a href="#problema">O problema</a>
+      <a href="#como">Como funciona</a>
+      <a href="#recursos">Recursos</a>
+      <a href="#telas">Galeria</a>
+      <a href="#confianca">Confiabilidade</a>
+      <a href="#faq">Dúvidas</a>
+    </nav>
+    <div class="pnav-right">
+      <a class="pnav-back" href="../">← Produtos</a>
+      <a class="btn btn-p" href="mailto:orleanssamai128@gmail.com?subject=Demonstra%C3%A7%C3%A3o%20do%20Church%20Slides%20Studio&amp;body=Ol%C3%A1%2C%20Orleans.%20Gostaria%20de%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Church%20Slides%20Studio.%0A%0AIgreja%3A%0AQuem%20opera%20o%20tel%C3%A3o%20hoje%3A%0AMelhor%20hor%C3%A1rio%20para%20contato%3A">Solicitar demonstração</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ════════════════ HERO ════════════════ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="pill rv">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M12 17v4"/><path d="M8 21h8"/></svg>
+        Para equipes de mídia e projeção de igrejas
+      </span>
+      <h1 class="rv">Slides bonitos sem transformar cada culto num projeto de design.</h1>
+      <p class="sub rv">
+        Sábado à noite, alguém abre um editor de apresentações do zero e passa três horas alinhando caixa
+        de texto. O Church Slides Studio começa <strong>do modelo pronto</strong> — culto, avisos, ceia,
+        letra, batismo — com a identidade visual da sua igreja já aplicada.
+      </p>
+      <div class="btn-row rv">
+        <a class="btn btn-p btn-lg" href="mailto:orleanssamai128@gmail.com?subject=Demonstra%C3%A7%C3%A3o%20do%20Church%20Slides%20Studio&amp;body=Ol%C3%A1%2C%20Orleans.%20Gostaria%20de%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Church%20Slides%20Studio.%0A%0AIgreja%3A%0AQuem%20opera%20o%20tel%C3%A3o%20hoje%3A%0AMelhor%20hor%C3%A1rio%20para%20contato%3A">
+          Solicitar demonstração
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-s btn-lg" href="#telas">Ver exemplos</a>
+      </div>
+      <p class="hero-note rv">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ok)"><path d="M20 6 9 17l-5-5"/></svg>
+        <b>Roda 100% offline.</b> A internet da igreja pode cair no meio do culto — o telão continua.
+      </p>
+    </div>
+
+    <div class="rv-mk">
+      <div class="cs-hall">
+        <div class="cs-screen">
+          <div class="cs-slide verse">
+            <div class="inner">
+              <p class="txt serif">“O Senhor é o meu pastor; nada me faltará.”</p>
+              <span class="ref">Salmos 23:1</span>
+            </div>
+          </div>
+        </div>
+        <div class="cs-hall-foot">
+          <span class="who"><i></i> Modo apresentação · slide 4 de 18 · 00:12:34</span>
+          <span class="keys"><span>←</span><span>→</span><span>B</span><span>Esc</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PROBLEMA ════════════════ -->
+<section class="sec sec-soft" id="problema">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> O problema</span>
+      <h2>O telão consome a semana de quem serve</h2>
+      <p>O trabalho é voluntário. A cobrança por qualidade, não.</p>
+    </div>
+
+    <div class="prob-grid">
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Sempre começando do zero</h3>
+        <p>Toda semana é o mesmo ritual: abrir arquivo em branco, escolher fonte, alinhar caixa de texto, escurecer a foto de fundo. De novo.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Cada domingo com uma cara</h3>
+        <p>Um voluntário usa uma fonte, outro usa outra. Em três meses, a igreja tem cinco identidades visuais diferentes no mesmo telão.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Versículo digitado à mão</h3>
+        <p>Copiar de um site, colar, corrigir a formatação, conferir a referência. Multiplicado por cinco versículos, é meia hora por culto.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Wi-Fi da igreja no meio do culto</h3>
+        <p>Ferramenta online é ótima até a rede oscilar durante o louvor. Aí o telão trava com todo mundo olhando.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Arquivo que só um voluntário tem</h3>
+        <p>Está no computador dele, na conta dele, com a senha dele. Faltou no domingo, a equipe recomeça do zero.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Arte de divulgação como tarefa extra</h3>
+        <p>Depois dos slides, ainda falta o post do evento no feed e o convite no story — normalmente em outro programa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ SOLUÇÃO ════════════════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <span class="eyebrow"><i></i> A solução</span>
+      <h2>Começar pronto, ajustar o que importa</h2>
+      <p>O modelo já vem montado. O tema já vem escolhido. Sobra tempo para o conteúdo do culto.</p>
+    </div>
+
+    <div class="ba">
+      <div class="ba-col before rv">
+        <span class="ba-tag">Antes</span>
+        <h3>Três horas no sábado</h3>
+        <ul class="ba-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Arquivo em branco toda semana</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Cada voluntário com um estilo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Versículo copiado e reformatado</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Dependendo da internet no culto</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Arte do evento em outro programa</li>
+        </ul>
+      </div>
+
+      <div class="ba-arrow rv">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+
+      <div class="ba-col after rv">
+        <span class="ba-tag">Com o Church Slides Studio</span>
+        <h3>Meia hora e está pronto</h3>
+        <ul class="ba-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> 21 modelos prontos para o tipo de culto</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Identidade da igreja aplicada em todos</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Versículo buscado e inserido já formatado</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Tudo no computador, sem depender de rede</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Artes de feed e story no mesmo lugar</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ COMO FUNCIONA ════════════════ -->
+<section class="sec sec-tint" id="como">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Como funciona</span>
+      <h2>Do modelo ao telão</h2>
+      <p>Três passos entre abrir o programa e projetar — e o terceiro é apertar F5.</p>
+    </div>
+
+    <div class="steps three">
+      <div class="step rv">
+        <div class="n">01</div>
+        <h3>Escolha o modelo</h3>
+        <p>Culto de domingo, avisos, santa ceia, letra de louvor, batismo, missões, Natal, Páscoa… ou comece em branco, se preferir.</p>
+      </div>
+      <div class="step rv">
+        <div class="n">02</div>
+        <h3>Edite como no Canva</h3>
+        <p>Arraste, redimensione, troque o texto com dois cliques. As guias de centro alinham sozinhas — sem precisar acertar no olho.</p>
+      </div>
+      <div class="step rv">
+        <div class="n">03</div>
+        <h3>Apresente ou exporte</h3>
+        <p>F5 abre o modo tela cheia com cronômetro e notas do pregador. Ou exporte em PDF, PNG e PowerPoint para quem preferir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ GALERIA ════════════════ -->
+<section class="sec" id="telas">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Galeria</span>
+      <h2>O mesmo culto, dez identidades possíveis</h2>
+      <p>Os temas mudam fundo, cores e tipografia de todos os slides com um clique — sem refazer nada.</p>
+    </div>
+
+    <div class="cs-gal">
+      <div class="cs-card rv">
+        <div class="cs-mini t-elegante">
+          <b class="serif">“Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei.”</b>
+          <small>Mateus 11:28</small>
+        </div>
+        <div class="cs-cap"><b>Versículo</b><span>tema Elegante</span></div>
+      </div>
+      <div class="cs-card rv">
+        <div class="cs-mini t-clean">
+          <b>Culto de Domingo</b>
+          <small>18h · Bem-vindos</small>
+        </div>
+        <div class="cs-cap"><b>Abertura</b><span>tema Clean</span></div>
+      </div>
+      <div class="cs-card rv">
+        <div class="cs-mini t-dourado">
+          <b class="serif">Santa Ceia</b>
+          <small>“Fazei isto em memória de mim”</small>
+        </div>
+        <div class="cs-cap"><b>Ceia</b><span>tema Dourado</span></div>
+      </div>
+      <div class="cs-card rv">
+        <div class="cs-mini t-juventude">
+          <b>Culto de Jovens<br>Sexta · 20h</b>
+          <small>Traga um amigo</small>
+        </div>
+        <div class="cs-cap"><b>Evento</b><span>tema Juventude</span></div>
+      </div>
+      <div class="cs-card rv">
+        <div class="cs-mini t-azul">
+          <b>Grande é o Senhor<br>e mui digno de louvor</b>
+          <small>Letra · estrofe 1</small>
+        </div>
+        <div class="cs-cap"><b>Louvor</b><span>tema Azul</span></div>
+      </div>
+      <div class="cs-card rv">
+        <div class="cs-mini t-minimal">
+          <b>Avisos da semana</b>
+          <small>Ensaio quinta · Ceia domingo</small>
+        </div>
+        <div class="cs-cap"><b>Avisos</b><span>tema Minimalista</span></div>
+      </div>
+    </div>
+
+    <!-- editor -->
+    <div class="show" style="margin-top:86px">
+      <div class="show-txt rv">
+        <h3>O editor</h3>
+        <p>Quem já mexeu em qualquer editor de arte se encontra em cinco minutos — e é isso que permite treinar um voluntário novo sem manual.</p>
+        <ul class="show-pts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Arrastar, redimensionar, camadas, duplicar e <b>bloquear</b> o que não pode sair do lugar.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>Guias de centro</b> que encaixam sozinhas — o texto para de ficar torto.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Fundo em cor, degradê ou imagem, com escurecimento e opção de <b>aplicar a todos os slides</b>.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Atalhos de verdade: <b>Ctrl+D</b> duplica, <b>Ctrl+S</b> salva, <b>F5</b> apresenta.</span></li>
+        </ul>
+      </div>
+      <div class="show-vis rv-mk">
+        <div class="mk">
+          <div class="mk-bar" style="background:#0b0e16;border-color:#1b2130">
+            <span class="mk-dots"><i></i><i></i><i></i></span>
+            <span class="mk-url mono" style="background:#131824;border-color:#1e2432;color:#7e8798">Culto de Domingo · 18 slides — Church Slides Studio</span>
+          </div>
+          <div class="cs-editor">
+            <div class="cs-thumbs">
+              <div class="cs-thumb">1</div>
+              <div class="cs-thumb">2</div>
+              <div class="cs-thumb">3</div>
+              <div class="cs-thumb on">4</div>
+              <div class="cs-thumb">5</div>
+              <div class="cs-thumb">6</div>
+            </div>
+            <div class="cs-stage">
+              <div style="width:100%;border-radius:6px;overflow:hidden;box-shadow:0 0 0 1px rgba(180,83,9,.55),0 14px 40px -14px rgba(0,0,0,.9)">
+                <div class="cs-screen" style="border-radius:0;box-shadow:none">
+                  <div class="cs-slide verse">
+                    <div class="inner">
+                      <p class="txt serif">“O Senhor é o meu pastor; nada me faltará.”</p>
+                      <span class="ref">Salmos 23:1</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="cs-props">
+              <span class="lbl">Texto</span>
+              <span class="fld">Fraunces · 54 px</span>
+              <span class="fld">Centralizado · sombra</span>
+              <span class="lbl" style="margin-top:4px">Tema</span>
+              <span class="sw">
+                <i style="background:#1b2030"></i><i style="background:#b45309"></i>
+                <i style="background:#f2ede3"></i><i style="background:#2d1b52"></i>
+              </span>
+              <span class="lbl" style="margin-top:4px">Fundo</span>
+              <span class="fld">Degradê · 38% escuro</span>
+              <span class="fld" style="color:var(--accent);border-color:rgba(180,83,9,.5)">Aplicar a todos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- versículos -->
+    <div class="show flip" style="margin-bottom:0">
+      <div class="show-txt rv">
+        <h3>Biblioteca de versículos</h3>
+        <p>Busca por referência, por palavra do texto ou por tema — e o versículo entra no slide já formatado, com a referência no lugar certo.</p>
+        <ul class="show-pts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Funciona <b>sem internet</b> — a biblioteca vive dentro do programa.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Busca por tema ajuda quando o pregador pede “algo sobre coragem”.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Texto base em <b>domínio público</b> (Almeida clássica), ampliável pela própria igreja.</span></li>
+        </ul>
+      </div>
+      <div class="show-vis rv-mk">
+        <div class="mk">
+          <div class="mk-bar"><span class="mk-dots"><i></i><i></i><i></i></span><span class="mk-url mono">Biblioteca de versículos · buscar “coragem”</span></div>
+          <div class="mk-body">
+            <div class="mk-row">
+              <span class="ic" style="background:var(--accent-soft);color:var(--accent-ink)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5V4a2 2 0 0 1 2-2h13v18H6a2 2 0 0 0-2 2Z"/></svg></span>
+              <span class="tx"><b>Josué 1:9</b><span>“Esforça-te e tem bom ânimo; não temas…”</span></span>
+              <span class="rt"><span class="st st-acc">coragem</span></span>
+            </div>
+            <div class="mk-row">
+              <span class="ic" style="background:var(--accent-soft);color:var(--accent-ink)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5V4a2 2 0 0 1 2-2h13v18H6a2 2 0 0 0-2 2Z"/></svg></span>
+              <span class="tx"><b>Isaías 41:10</b><span>“Não temas, porque eu sou contigo…”</span></span>
+              <span class="rt"><span class="st st-acc">coragem</span></span>
+            </div>
+            <div class="mk-row" style="margin-bottom:0">
+              <span class="ic" style="background:var(--accent-soft);color:var(--accent-ink)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5V4a2 2 0 0 1 2-2h13v18H6a2 2 0 0 0-2 2Z"/></svg></span>
+              <span class="tx"><b>Filipenses 4:13</b><span>“Posso todas as coisas naquele que me fortalece.”</span></span>
+              <span class="rt"><span class="st st-neutral">força</span></span>
+            </div>
+            <div style="margin-top:14px;padding:11px 13px;border-radius:10px;background:var(--accent-soft);border:1px solid var(--accent-line);font-size:11.5px;color:var(--accent-ink)">
+              Clicar insere o versículo no slide já com a tipografia do tema aplicada.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ RECURSOS ════════════════ -->
+<section class="sec sec-soft" id="recursos">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Recursos</span>
+      <h2>O que está pronto e funcionando</h2>
+      <p>Tudo abaixo já existe no programa hoje — o que ainda está no plano fica claramente separado.</p>
+    </div>
+
+    <div class="feat-grid">
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+        <h3>21 modelos de igreja</h3>
+        <p>Culto de domingo, avisos, santa ceia, louvor com letra, jovens, família, casamento, batismo, dízimos, missões, ministérios, conferência, Natal, Páscoa, boas-vindas e encerramento.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2a10 10 0 0 0 0 20 2.5 2.5 0 0 0 0-5 2.5 2.5 0 0 1 0-5h3a5 5 0 0 0 5-5c0-3-3.5-5-8-5Z"/></svg></div>
+        <h3>10 temas em um clique</h3>
+        <p>Minimalista, Elegante, Escuro, Azul, Dourado, Pentecostal, Juventude, Natal, Páscoa e Clean. Trocar o tema reveste a apresentação inteira.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.4 9.4 8 10 4.6-.6 8-5 8-10V6l-8-4Z"/></svg></div>
+        <h3>Identidade da sua igreja</h3>
+        <p>Nome, logo, cores e fontes definidos uma vez e aplicados nos modelos. O telão passa a ter uma cara só, independentemente de quem montou.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V4a2 2 0 0 1 2-2h13v18H6a2 2 0 0 0-2 2Z"/><path d="M8 7h7"/></svg></div>
+        <h3>Versículos offline com busca</h3>
+        <p>Busca por referência, texto ou tema, com inserção já formatada no slide. Texto base em domínio público, ampliável pela igreja.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg></div>
+        <h3>Modo apresentação completo</h3>
+        <p>Tela cheia com setas e barra de espaço, cronômetro do culto, notas do pregador e tela preta na tecla B para quando o telão precisa sumir.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></div>
+        <h3>Exporta em quatro formatos</h3>
+        <p>PDF com todos os slides, PNG do slide atual, PNG de todos em um arquivo compactado e <b>PowerPoint (.pptx)</b> para quem prefere apresentar por lá.</p>
+      </div>
+    </div>
+
+    <div class="notfor rv" style="margin-top:34px;max-width:74ch">
+      <b>O que ainda está no plano — e por isso não conta como recurso</b>
+      <p>Geração de conteúdo por inteligência artificial, reordenar slides arrastando, e bancos de imagens e
+      fundos embutidos são <b>ideias para a próxima fase</b>, não funcionalidades disponíveis. Prefiro dizer isso
+      aqui do que você descobrir na terceira semana de uso.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ BENEFÍCIOS ════════════════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Resultado</span>
+      <h2>O que muda para a equipe de mídia</h2>
+      <p>O ganho não é “ter um editor”. É devolver o sábado de quem serve e dar constância ao telão.</p>
+    </div>
+
+    <div class="ben-grid">
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3>Preparo mais curto</h3>
+        <p>Começar do modelo pronto, com tema e identidade já aplicados, elimina a parte mais demorada da montagem.</p>
+      </div>
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.4 9.4 8 10 4.6-.6 8-5 8-10V6l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>Uma identidade só</h3>
+        <p>Não importa qual voluntário montou: o culto de domingo tem a mesma cara do de quinta.</p>
+      </div>
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+        <h3>Voluntário novo em minutos</h3>
+        <p>Modelo pronto e editor familiar reduzem o treinamento — a equipe deixa de depender de uma pessoa só.</p>
+      </div>
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14 0"/><path d="M12 20h.01"/><path d="m2 2 20 20"/></svg></div>
+        <h3>Culto que não trava</h3>
+        <p>Sem servidor e sem nuvem no meio do caminho, a projeção não depende da rede da igreja se comportar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PARA QUEM É ════════════════ -->
+<section class="sec sec-tint">
+  <div class="wrap aud-wrap">
+    <div class="rv">
+      <span class="eyebrow"><i></i> Para quem é</span>
+      <h2>Feito para quem monta o telão toda semana</h2>
+      <p style="color:var(--ink-3);font-size:17px;margin-top:14px">
+        O ponto ideal é a igreja com <strong style="color:var(--ink-2)">equipe de mídia voluntária</strong> —
+        gente dedicada, com pouco tempo e sem formação em design, que precisa entregar qualidade toda semana.
+      </p>
+      <div class="notfor">
+        <b>Provavelmente não é para você se…</b>
+        <p>sua operação exige controle de câmeras, integração com mesa de som, transmissão ao vivo ou
+        projeção sincronizada em vários ambientes. Este produto cuida da apresentação em si.</p>
+      </div>
+    </div>
+
+    <div class="aud-grid">
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M9 5h6"/><path d="M6 22V11l6-4 6 4v11"/><path d="M10 22v-5h4v5"/></svg></span><b>Igrejas locais<span>de qualquer tamanho e denominação</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M12 17v4"/><path d="M8 21h8"/></svg></span><b>Operadores de telão<span>que montam e projetam no mesmo dia</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg></span><b>Ministérios de comunicação<span>que também cuidam das redes</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 22 2l-9 19-2-8-8-2Z"/></svg></span><b>Líderes de jovens<span>com culto próprio e visual próprio</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span><b>Equipes de louvor<span>que projetam letra ao vivo</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18"/><rect x="3" y="4" width="18" height="18" rx="2"/></svg></span><b>Organizadores de eventos<span>conferências, batismos e datas especiais</span></b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ MÉTRICAS ════════════════ -->
+<section class="sec sec-sm">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <span class="eyebrow" style="justify-content:center"><i></i> O que dá para medir</span>
+      <h2>Ganhos que a equipe sente no primeiro domingo</h2>
+      <p>Sem número de igreja inventado: estes são os efeitos diretos de começar do modelo pronto.</p>
+    </div>
+    <div class="mets">
+      <div class="met rv"><b><span data-count="21">21</span></b><span class="lbl">modelos prontos</span><p>Para os tipos de culto, celebração e arte que se repetem no calendário da igreja.</p></div>
+      <div class="met rv"><b><span data-count="10">10</span></b><span class="lbl">temas em um clique</span><p>Trocar o tema reveste a apresentação inteira sem refazer slide nenhum.</p></div>
+      <div class="met rv"><b><span data-count="4">4</span></b><span class="lbl">formatos de exportação</span><p>PDF, PNG do slide, PNG de todos compactado e PowerPoint.</p></div>
+      <div class="met rv"><b>0</b><span class="lbl">dependência de internet</span><p>Programa, modelos, temas e versículos vivem no computador da igreja.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CONFIABILIDADE ════════════════ -->
+<section class="sec sec-dark" id="confianca">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Confiabilidade</span>
+      <h2>Nada sai do computador da igreja</h2>
+      <p>Num culto, a pior falha possível é a que acontece com trezentas pessoas olhando para o telão.</p>
+    </div>
+
+    <div class="secu-grid">
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14 0"/><path d="M8.5 16.4a6 6 0 0 1 7 0"/><path d="M12 20h.01"/><path d="m2 2 20 20"/></svg></div>
+        <h3>Offline de verdade</h3>
+        <p>Não há servidor, conta na nuvem nem sincronização. Fontes, modelos, temas e versículos são carregados do próprio programa — a internet pode estar fora o culto inteiro.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div>
+        <h3>Seu arquivo é seu</h3>
+        <p>Cada apresentação é salva como um arquivo <code>.church</code> no computador. Dá para guardar em pasta compartilhada, pendrive ou backup da igreja, como qualquer documento.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="m19 9-7-7-7 7"/></svg></div>
+        <h3>Trabalho não se perde</h3>
+        <p>O que está sendo editado é preservado automaticamente entre as sessões. Fechar sem querer não significa recomeçar a montagem do domingo.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M12 17v4"/><path d="M8 21h8"/></svg></div>
+        <h3>Instalável como programa</h3>
+        <p>Instalador do Windows com atalho próprio. Quem opera o telão abre um programa, não um navegador com quinze abas e risco de notificação aparecendo na projeção.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></div>
+        <h3>Sem aprisionamento</h3>
+        <p>Exportando em PDF ou PowerPoint, o material continua utilizável em qualquer computador — inclusive se um dia a igreja decidir usar outra ferramenta.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></div>
+        <h3>Sem mensalidade por voluntário</h3>
+        <p>É um programa instalado, não uma assinatura por usuário. A equipe de mídia pode crescer sem que o custo acompanhe.</p>
+      </div>
+    </div>
+
+    <p class="secu-note rv">
+      <b style="color:#c7ccd8">Nota honesta sobre limites:</b> apresentações com muitas imagens pesadas podem ficar grandes,
+      porque as imagens são guardadas dentro do próprio projeto. Migrar esse armazenamento é um dos próximos passos técnicos previstos.
+    </p>
+
+    <div class="stack-row rv" style="margin-top:30px">
+      <span class="tech">React + TypeScript</span><span class="tech">Aplicativo desktop</span><span class="tech">Instalador Windows</span>
+      <span class="tech">Exportação PDF · PNG · PPTX</span><span class="tech">Arquivo .church</span><span class="tech">100% offline</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FAQ ════════════════ -->
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <span class="eyebrow" style="justify-content:center"><i></i> Dúvidas frequentes</span>
+      <h2>O que costumam perguntar</h2>
+    </div>
+
+    <div class="faq rv">
+      <details>
+        <summary>Preciso de internet para usar durante o culto?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Não, em momento nenhum. O programa é instalado no computador e <b>tudo vive lá dentro</b>: modelos, temas, fontes e a biblioteca de versículos. Foi feito assim exatamente porque a rede da igreja costuma oscilar justo no domingo à noite.</div>
+      </details>
+      <details>
+        <summary>Quem vai operar não entende de design. Vai conseguir?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">É justamente para essa pessoa que o programa foi feito. Ela <b>não parte de uma tela em branco</b>: escolhe o modelo do tipo de culto, troca os textos e está pronto. As guias de centro alinham sozinhas e o tema cuida de cores e tipografia — as duas coisas que mais denunciam um slide amador.</div>
+      </details>
+      <details>
+        <summary>Dá para usar a identidade visual da nossa igreja?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Sim. Você cadastra <b>nome, logo, cores e fontes</b> uma vez, e os modelos passam a usar isso. É o que faz o culto de domingo e o de quinta terem a mesma cara, mesmo montados por voluntários diferentes.</div>
+      </details>
+      <details>
+        <summary>E se preferirmos apresentar pelo PowerPoint?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Funciona. Além do modo de apresentação próprio — com cronômetro, notas do pregador e tela preta na tecla B — dá para <b>exportar em .pptx</b> e projetar pelo PowerPoint, ou em PDF e PNG para quem preferir. O material não fica preso ao programa.</div>
+      </details>
+      <details>
+        <summary>Onde ficam salvas as apresentações?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Como arquivos <code>.church</code> no computador, salvos onde você escolher. Isso significa que dá para guardar numa pasta de rede da igreja, num pendrive ou no backup que vocês já usam — e que <b>nenhum culto depende da conta pessoal de um voluntário</b>.</div>
+      </details>
+      <details>
+        <summary>Serve para fazer as artes das redes sociais também?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Em parte, sim: existem modelos de arte para <b>feed, story e formato horizontal</b>, e a exportação em PNG entrega a imagem pronta para publicar. Não é um substituto completo de uma ferramenta de design, mas resolve o convite do culto e o aviso do evento sem trocar de programa.</div>
+      </details>
+      <details>
+        <summary>Tem inteligência artificial para gerar os slides?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Ainda não — e prefiro dizer isso claramente. Geração de conteúdo por IA está <b>planejada para uma próxima fase</b>, não disponível hoje. O que existe agora são os modelos prontos e os temas, que já resolvem a maior parte do tempo gasto na montagem.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CTA FINAL ════════════════ -->
+<section class="sec sec-sm">
+  <div class="wrap">
+    <div class="cta rv">
+      <h2>Pronto para devolver o sábado da equipe de mídia?</h2>
+      <p>Marque uma demonstração de 20 minutos: monto um culto de exemplo com a identidade visual da sua igreja.</p>
+      <div class="btn-row">
+        <a class="btn btn-w btn-lg" href="mailto:orleanssamai128@gmail.com?subject=Demonstra%C3%A7%C3%A3o%20do%20Church%20Slides%20Studio&amp;body=Ol%C3%A1%2C%20Orleans.%20Gostaria%20de%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Church%20Slides%20Studio.%0A%0AIgreja%3A%0AQuem%20opera%20o%20tel%C3%A3o%20hoje%3A%0AMelhor%20hor%C3%A1rio%20para%20contato%3A">
+          Solicitar demonstração
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-o btn-lg" href="https://github.com/orleanss777-sys/church-slides-studio" target="_blank" rel="noopener">Ver o projeto no GitHub</a>
+      </div>
+      <p class="cta-fine">Resposta em até um dia útil · Sem compromisso</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ OUTROS PRODUTOS ════════════════ -->
+<section class="sec sec-sm sec-soft">
+  <div class="wrap">
+    <div class="sec-head rv" style="margin-bottom:34px">
+      <span class="eyebrow"><i></i> Vitrine</span>
+      <h2 style="font-size:clamp(23px,2.8vw,32px)">Conheça outras soluções</h2>
+    </div>
+    <div class="cross">
+      <a class="cross-card rv" href="../autoatendimento/">
+        <div class="cross-vis" style="background:linear-gradient(140deg,rgba(234,88,12,.10),rgba(234,88,12,.02))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/></svg>
+        </div>
+        <div class="cross-in">
+          <span class="cat">Restaurantes</span>
+          <h3>Autoatendimento QR</h3>
+          <p>O cliente pede pelo próprio celular, o garçom confirma em um clique e a cozinha imprime sozinha.</p>
+          <span class="go" style="color:#c2410c">Conhecer projeto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cross-card rv" href="../frota-lite/">
+        <div class="cross-vis" style="background:linear-gradient(140deg,rgba(37,99,235,.10),rgba(37,99,235,.02))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 17V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h1"/><path d="M14 9h4l3 4v4a1 1 0 0 1-1 1h-1"/><circle cx="6.5" cy="17.5" r="2"/><circle cx="16.5" cy="17.5" r="2"/></svg>
+        </div>
+        <div class="cross-in">
+          <span class="cat">Frota</span>
+          <h3>Frota-Lite</h3>
+          <p>Qual veículo precisa de manutenção agora? A resposta numa tela, com a próxima revisão reprogramada sozinha.</p>
+          <span class="go" style="color:#1d4ed8">Conhecer projeto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cross-card rv" href="../ebike-support/">
+        <div class="cross-vis" style="background:linear-gradient(140deg,rgba(5,150,105,.10),rgba(5,150,105,.02))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
+        </div>
+        <div class="cross-in">
+          <span class="cat">Pós-venda</span>
+          <h3>eBike Suporte</h3>
+          <p>Cada bicicleta, cada chamado e todo o histórico técnico em um só lugar, do cliente ao técnico.</p>
+          <span class="go" style="color:#047857">Conhecer projeto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pfoot">
+  <div class="wrap">
+    <div class="pfoot-in">
+      <div class="pfoot-brand">
+        <b>Orleans Samai</b>
+        <p>Produtos digitais para operações que cresceram além da planilha — construídos, documentados e testados.</p>
+      </div>
+      <div class="pfoot-cols">
+        <div class="pfoot-col">
+          <b>Produtos</b>
+          <a href="../frota-lite/">Frota-Lite</a>
+          <a href="../cota-flow/">Cota-Flow</a>
+          <a href="../autoatendimento/">Autoatendimento QR</a>
+          <a href="../ebike-support/">eBike Suporte</a>
+          <a href="../church-slides/">Church Slides Studio</a>
+        </div>
+        <div class="pfoot-col">
+          <b>Navegar</b>
+          <a href="../">Todos os produtos</a>
+          <a href="../../">Portfólio</a>
+          <a href="https://github.com/orleanss777-sys" target="_blank" rel="noopener">GitHub</a>
+          <a href="mailto:orleanssamai128@gmail.com">Contato</a>
+        </div>
+      </div>
+    </div>
+    <div class="pfoot-bot">
+      <span>© <span data-year>2026</span> Orleans Samai. Todos os direitos reservados.</span>
+      <span>Church Slides Studio · apresentações para igrejas</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/js/produtos.js" defer></script>
+</body>
+</html>

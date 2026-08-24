@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frota-Lite | Controle de manutenção para frotas pequenas</title>
+<meta name="description" content="O Frota-Lite responde numa tela qual veículo precisa de manutenção agora. Planos por quilometragem e por tempo, alertas em três cores e reprogramação automática da próxima revisão. Para frotas de 3 a 30 veículos.">
+<link rel="canonical" href="https://orleanss777-sys.github.io/projetos/frota-lite/">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%232563eb'/><text y='70' x='50' font-size='54' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold'>F</text></svg>">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Orleans Samai · Produtos">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Frota-Lite | Controle de manutenção para frotas pequenas">
+<meta property="og:description" content="Qual veículo precisa de manutenção agora? O Frota-Lite responde numa tela — e reprograma sozinho a próxima revisão quando o serviço é registrado.">
+<meta property="og:url" content="https://orleanss777-sys.github.io/projetos/frota-lite/">
+<meta name="twitter:card" content="summary">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/produtos.css">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --accent:#2563eb;
+    --accent-ink:#1d4ed8;
+    --accent-soft:rgba(37,99,235,.10);
+    --accent-line:rgba(37,99,235,.22);
+  }
+  /* faixa de status do dashboard — identidade própria da página */
+  .fl-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .fl-legend span{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-3);
+    border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:#fff}
+  .fl-legend i{width:8px;height:8px;border-radius:50%;flex:none}
+  .fl-plan{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0;
+    border-top:1px dashed var(--line-soft);font-size:11px;color:var(--ink-3)}
+  .fl-plan:first-of-type{border-top:0}
+  .fl-card{border:1px solid var(--line-soft);border-radius:11px;padding:12px 13px;background:#fff;margin-bottom:8px}
+  .fl-card.crit{border-color:rgba(200,50,47,.26);background:linear-gradient(180deg,rgba(200,50,47,.04),#fff 40%)}
+  .fl-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
+  .fl-card-top b{font-size:13px;color:var(--ink);letter-spacing:-.015em;display:block}
+  .fl-card-top small{font-size:10.5px;color:var(--ink-4);display:block;margin-top:1px}
+</style>
+</head>
+<body>
+
+<header class="pnav">
+  <div class="wrap pnav-in">
+    <a class="pbrand" href="../">
+      <span class="pmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 17V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h1"/><path d="M14 9h4l3 4v4a1 1 0 0 1-1 1h-1"/><circle cx="6.5" cy="17.5" r="2"/><circle cx="16.5" cy="17.5" r="2"/></svg></span>
+      <span class="pbrand-txt"><b>Frota-Lite</b><small>Controle de manutenção de frota</small></span>
+    </a>
+    <nav class="pnav-links">
+      <a href="#problema">O problema</a>
+      <a href="#como">Como funciona</a>
+      <a href="#recursos">Recursos</a>
+      <a href="#telas">Telas</a>
+      <a href="#seguranca">Segurança</a>
+      <a href="#faq">Dúvidas</a>
+    </nav>
+    <div class="pnav-right">
+      <a class="pnav-back" href="../">← Produtos</a>
+      <a class="btn btn-p" href="mailto:orleanssamai128@gmail.com?subject=Demonstra%C3%A7%C3%A3o%20do%20Frota-Lite&amp;body=Ol%C3%A1%2C%20Orleans.%20Gostaria%20de%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Frota-Lite.%0A%0AEmpresa%3A%0AQuantidade%20de%20ve%C3%ADculos%3A%0AMelhor%20hor%C3%A1rio%20para%20contato%3A">Solicitar demonstração</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ════════════════ HERO ════════════════ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="pill rv">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><circle cx="12" cy="14" r="6"/></svg>
+        Gestão de manutenção para frotas de 3 a 30 veículos
+      </span>
+      <h1 class="rv">Sua frota sob controle. Sem caderno, planilha ou memória.</h1>
+      <p class="sub rv">
+        A revisão costuma ser lembrada quando o barulho aparece — e aí o custo já não é o da revisão,
+        é o do conserto. O Frota-Lite responde, <strong>numa tela só</strong>, qual veículo precisa de
+        atenção hoje, e reprograma sozinho a próxima manutenção quando o serviço é registrado.
+      </p>
+      <div class="btn-row rv">
+        <a class="btn btn-p btn-lg" href="mailto:orleanssamai128@gmail.com?subject=Demonstra%C3%A7%C3%A3o%20do%20Frota-Lite&amp;body=Ol%C3%A1%2C%20Orleans.%20Gostaria%20de%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Frota-Lite.%0A%0AEmpresa%3A%0AQuantidade%20de%20ve%C3%ADculos%3A%0AMelhor%20hor%C3%A1rio%20para%20contato%3A">
+          Solicitar demonstração
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-s btn-lg" href="#como">Ver como funciona</a>
+      </div>
+      <p class="hero-note rv">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ok)"><path d="M20 6 9 17l-5-5"/></svg>
+        <b>Sem app para instalar.</b> Abre no navegador do computador e do celular.
+      </p>
+    </div>
+
+    <div class="rv-mk">
+      <div class="mk mk-float">
+        <div class="mk-bar">
+          <span class="mk-dots"><i></i><i></i><i></i></span>
+          <span class="mk-url mono">app.frota-lite · Painel da frota</span>
+        </div>
+        <div class="mk-app">
+          <aside class="mk-side">
+            <div class="lg"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 17V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h1"/><path d="M14 9h4l3 4v4a1 1 0 0 1-1 1h-1"/><circle cx="6.5" cy="17.5" r="2"/><circle cx="16.5" cy="17.5" r="2"/></svg></span> Frota-Lite</div>
+            <nav class="mk-nav">
+              <div class="on"><i></i> Painel</div>
+              <div><i></i> Veículos</div>
+              <div><i></i> Quilometragem</div>
+              <div><i></i> Registrar manutenção</div>
+              <div><i></i> Gastos</div>
+              <div><i></i> Conta</div>
+            </nav>
+          </aside>
+          <div class="mk-main">
+            <div class="mk-h">
+              <b>Situação da frota</b>
+              <small class="mono">atualizado agora</small>
+            </div>
+            <div class="mk-kpis">
+              <div class="mk-kpi"><b>12</b><span>VEÍCULOS</span></div>
+              <div class="mk-kpi bad"><b>2</b><span>ATRASADOS</span></div>
+              <div class="mk-kpi warn"><b>3</b><span>PRÓXIMOS</span></div>
+              <div class="mk-kpi ok"><b>7</b><span>EM DIA</span></div>
+              <div class="mk-kpi"><b>R$ 2.270</b><span>90 DIAS</span></div>
+            </div>
+
+            <div class="fl-card crit">
+              <div class="fl-card-top">
+                <div><b>Fiorino 02</b><small class="mono">ABC1D23 · 81.200 km</small></div>
+                <span class="st st-bad">● Atrasado</span>
+              </div>
+              <div class="fl-plan"><span>Troca de óleo</span><span class="mono">venceu há 1.200 km</span></div>
+              <div class="fl-plan"><span>Revisão geral</span><span class="mono">em 2.800 km</span></div>
+            </div>
+
+            <div class="fl-card">
+              <div class="fl-card-top">
+                <div><b>Van 04</b><small class="mono">DEF2G45 · 61.100 km</small></div>
+                <span class="st st-warn">▲ Próximo</span>
+              </div>
+              <div class="fl-plan"><span>Troca de óleo</span><span class="mono">em 900 km</span></div>
+              <div class="fl-plan"><span>Correia dentada</span><span class="mono">em 14 dias</span></div>
+            </div>
+
+            <div class="fl-card">
+              <div class="fl-card-top">
+                <div><b>Van 01</b><small class="mono">HIJ3K67 · 30.000 km</small></div>
+                <span class="st st-ok">✓ Em dia</span>
+              </div>
+              <div class="fl-plan"><span>Revisão geral</span><span class="mono">em 4.500 km</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fl-legend">
+        <span><i style="background:#c8322f"></i> Passou do ponto</span>
+        <span><i style="background:#b45309"></i> Está chegando</span>
+        <span><i style="background:#12805c"></i> Tranquilo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PROBLEMA ════════════════ -->
+<section class="sec sec-soft" id="problema">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> O problema</span>
+      <h2>Você ainda controla a frota assim?</h2>
+      <p>Uma empresa com doze veículos costuma ter três fontes de verdade — e nenhuma confiável.</p>
+    </div>
+
+    <div class="prob-grid">
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>O caderno da gaveta</h3>
+        <p>Quem anotou não está hoje. A letra é do motorista que saiu. E ninguém confere antes de mandar o carro pra rua.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>A planilha parada em março</h3>
+        <p>Alguém montou, alguém alimentou por dois meses, e desde então ela só serve para dar a impressão de que existe controle.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>A revisão lembrada pelo barulho</h3>
+        <p>Quando o problema aparece sozinho, o custo já não é mais o da manutenção preventiva — é o do conserto e do veículo parado.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Gasto que ninguém soma</h3>
+        <p>Cada nota de oficina fica num lugar. No fim do ano, ninguém sabe dizer quanto custou manter aquele veículo específico.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Quilometragem defasada</h3>
+        <p>Atualizar doze veículos um a um exige doze idas ao sistema. Ninguém faz — e o dado envelhece até virar chute.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>ERP grande demais</h3>
+        <p>O que falta não é um sistema com trezentas telas e implantação de três meses. É saber, hoje de manhã, quais veículos precisam de atenção.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ SOLUÇÃO ════════════════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <span class="eyebrow"><i></i> A solução</span>
+      <h2>Uma forma mais simples de cuidar da frota</h2>
+      <p>Você diz de quanto em quanto cada manutenção se repete. O sistema cuida do resto.</p>
+    </div>
+
+    <div class="ba">
+      <div class="ba-col before rv">
+        <span class="ba-tag">Antes</span>
+        <h3>Três fontes, nenhuma confiável</h3>
+        <ul class="ba-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Caderno, planilha e memória do dono</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Cada revisão recalculada no papel</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Notas de oficina espalhadas</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Descobre o problema pelo barulho</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Ninguém sabe o custo por veículo</li>
+        </ul>
+      </div>
+
+      <div class="ba-arrow rv">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+
+      <div class="ba-col after rv">
+        <span class="ba-tag">Com o Frota-Lite</span>
+        <h3>Uma tela, uma resposta</h3>
+        <ul class="ba-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Um painel só, com o crítico sempre no topo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> A próxima revisão é reprogramada sozinha</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Nota fiscal e foto anexadas ao veículo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Alerta antes de vencer, por km e por tempo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Gasto total somado por veículo e por período</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ COMO FUNCIONA ════════════════ -->
+<section class="sec sec-tint" id="como">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Como funciona</span>
+      <h2>Quatro passos e o ciclo se fecha sozinho</h2>
+      <p>Depois do cadastro inicial, a rotina do dia a dia é atualizar a quilometragem e registrar o que foi feito.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step rv">
+        <div class="n">01</div>
+        <h3>Cadastre os veículos</h3>
+        <p>Nome, placa, tipo, marca, modelo, ano e a quilometragem atual. A placa é única dentro da sua empresa.</p>
+      </div>
+      <div class="step rv">
+        <div class="n">02</div>
+        <h3>Defina os planos</h3>
+        <p>“Óleo a cada 10.000 km e a cada 6 meses.” Vale por quilometragem, por tempo, ou pelos dois — quem vencer primeiro manda.</p>
+      </div>
+      <div class="step rv">
+        <div class="n">03</div>
+        <h3>Atualize a quilometragem</h3>
+        <p>Uma tela lista a frota inteira com um campo por veículo. Doze veículos em um envio só, sem navegar entre telas.</p>
+      </div>
+      <div class="step rv">
+        <div class="n">04</div>
+        <h3>Registre o serviço</h3>
+        <p>Data, km, custo e oficina. O sistema avança o hodômetro, reprograma a próxima revisão e atualiza o painel — tudo junto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ RECURSOS ════════════════ -->
+<section class="sec" id="recursos">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Recursos</span>
+      <h2>O que está pronto e funcionando</h2>
+      <p>Nada de módulo prometido para a próxima versão — abaixo está o que o sistema faz hoje.</p>
+    </div>
+
+    <div class="feat-grid">
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></div>
+        <h3>Painel por criticidade</h3>
+        <p>Cinco indicadores da frota e um card por veículo, ordenado do mais crítico para o menos. O vermelho nunca precisa ser procurado.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <h3>Alerta por km e por tempo</h3>
+        <p>Cada plano tem sua própria janela de aviso — por exemplo, 500 km ou 15 dias antes. Se os dois intervalos existirem, vale o pior dos dois.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg></div>
+        <h3>Reprogramação automática</h3>
+        <p>Ao registrar o serviço, o hodômetro avança, o plano é recalculado e o painel muda de cor — numa operação só, ou tudo ou nada.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/></svg></div>
+        <h3>Quilometragem em lote</h3>
+        <p>Todos os veículos numa tela, mostrando há quantos dias foi a última leitura. Se um valor estiver errado, o lote inteiro é recusado com o erro na linha exata.</p>
+        <div class="mini mono">Fiorino 02 · última leitura há 3 dias · <b>81.200</b></div>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 17.98 8.9l-8.59 8.58a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></div>
+        <h3>Fotos e documentos</h3>
+        <p>Nota fiscal da oficina, foto do dano, documento do veículo. JPG, PNG, WEBP ou PDF, até 8 MB, anexados ao veículo — sem URL pública.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>Gasto por veículo e por período</h3>
+        <p>Custo total desde o cadastro, gasto dos últimos 90 dias no painel e o histórico financeiro da frota inteira num lugar só.</p>
+      </div>
+    </div>
+
+    <div class="notfor rv" style="margin-top:34px;max-width:74ch">
+      <b>E o que ele deliberadamente não faz</b>
+      <p>Não emite nota fiscal, não controla estoque de peças, não rastreia por GPS, não controla abastecimento
+      e não gerencia motoristas, jornada ou multas. É um controle de manutenção — não um ERP. Ser honesto sobre
+      o escopo evita frustração na implantação.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ DEMONSTRAÇÃO VISUAL ════════════════ -->
+<section class="sec sec-soft" id="telas">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Por dentro do sistema</span>
+      <h2>Conheça as telas antes da demonstração</h2>
+      <p>São doze telas no total. Estas são as três que a equipe usa todo dia.</p>
+    </div>
+
+    <!-- show 1 -->
+    <div class="show">
+      <div class="show-txt rv">
+        <h3>Detalhe do veículo</h3>
+        <p>A tela mais densa do sistema, organizada pela frequência de uso: o que se faz todo dia fica no topo.</p>
+        <ul class="show-pts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>Quilometragem primeiro</b> — é a ação mais frequente, então abre a tela. O valor não pode diminuir.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>Planos ativos</b> com status próprio, próxima revisão em km e data de vencimento.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>Histórico, notas e anexos</b> — do “barulho no freio relatado pelo motorista” à nota da oficina.</span></li>
+        </ul>
+      </div>
+      <div class="show-vis rv-mk">
+        <div class="mk">
+          <div class="mk-bar"><span class="mk-dots"><i></i><i></i><i></i></span><span class="mk-url mono">Veículos › Fiorino 02</span></div>
+          <div class="mk-body">
+            <div class="mk-kpis" style="grid-template-columns:repeat(3,1fr)">
+              <div class="mk-kpi"><b>81.200 km</b><span>HODÔMETRO</span></div>
+              <div class="mk-kpi bad"><b>Atrasado</b><span>SITUAÇÃO</span></div>
+              <div class="mk-kpi"><b>R$ 6.840</b><span>GASTO TOTAL</span></div>
+            </div>
+            <div class="mk-h" style="margin-top:16px"><b>Planos de manutenção</b><small class="mono">2 ativos</small></div>
+            <div class="mk-row hot">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg></span>
+              <span class="tx"><b>Troca de óleo</b><span>a cada 10.000 km ou 6 meses</span></span>
+              <span class="rt"><b>80.000 km</b>venceu há 1.200 km</span>
+            </div>
+            <div class="mk-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg></span>
+              <span class="tx"><b>Revisão geral</b><span>a cada 20.000 km</span></span>
+              <span class="rt"><b>84.000 km</b>em 2.800 km</span>
+            </div>
+            <div class="mk-h" style="margin-top:16px"><b>Últimos serviços</b><small class="mono">histórico</small></div>
+            <div class="mk-scroll">
+              <table class="mk-tbl">
+                <tr><th>Data</th><th>Serviço</th><th>Oficina</th><th class="num">Custo</th></tr>
+                <tr><td class="mono">12/07</td><td><b>Pastilha de freio</b></td><td>Auto Center Silva</td><td class="num">R$ 480,00</td></tr>
+                <tr><td class="mono">03/05</td><td><b>Troca de óleo</b></td><td>Oficina do Zé</td><td class="num">R$ 350,00</td></tr>
+                <tr><td class="mono">28/02</td><td><b>Revisão geral</b></td><td>Auto Center Silva</td><td class="num">R$ 1.440,00</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- show 2 -->
+    <div class="show flip">
+      <div class="show-txt rv">
+        <h3>Quilometragem da frota</h3>
+        <p>Existe porque atualizar doze veículos um a um exige doze navegações — e ninguém faz isso toda semana.</p>
+        <ul class="show-pts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Cada linha mostra <b>há quantos dias foi a última leitura</b> — o dado defasado fica visível.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Não mexeu em nada? <b>Envie assim mesmo</b> — isso confirma os valores e renova a data das leituras.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Erro numa linha <b>recusa o lote inteiro</b> — nada é aplicado pela metade.</span></li>
+        </ul>
+      </div>
+      <div class="show-vis rv-mk">
+        <div class="mk">
+          <div class="mk-bar"><span class="mk-dots"><i></i><i></i><i></i></span><span class="mk-url mono">Quilometragem da frota</span></div>
+          <div class="mk-body">
+            <div class="mk-h"><b>Atualizar leituras</b><small class="mono">12 veículos</small></div>
+            <div class="mk-scroll">
+              <table class="mk-tbl">
+                <tr><th>Veículo</th><th>Placa</th><th>Última leitura</th><th class="num">Hodômetro</th></tr>
+                <tr><td><b>Fiorino 02</b></td><td class="mono">ABC1D23</td><td><span class="st st-ok">há 3 dias</span></td><td class="num mono">81.200</td></tr>
+                <tr><td><b>Van 04</b></td><td class="mono">DEF2G45</td><td><span class="st st-warn">há 21 dias</span></td><td class="num mono">61.100</td></tr>
+                <tr><td><b>Van 01</b></td><td class="mono">HIJ3K67</td><td><span class="st st-ok">há 2 dias</span></td><td class="num mono">30.000</td></tr>
+                <tr><td><b>Utilitário 03</b></td><td class="mono">KLM4N89</td><td><span class="st st-bad">há 64 dias</span></td><td class="num mono">44.780</td></tr>
+                <tr><td><b>Reboque 01</b></td><td class="mono">NOP5Q12</td><td><span class="st st-warn">há 30 dias</span></td><td class="num mono">12.400</td></tr>
+              </table>
+            </div>
+            <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px">
+              <span class="st st-neutral">Nada alterado? Envie mesmo assim</span>
+              <span class="st st-acc">Salvar leituras</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- show 3 -->
+    <div class="show" style="margin-bottom:0">
+      <div class="show-txt rv">
+        <h3>Gastos da frota</h3>
+        <p>O histórico financeiro de todos os veículos num lugar só, com o total somado no topo.</p>
+        <ul class="show-pts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Os <b>200 serviços mais recentes</b>, com data, veículo, fornecedor, hodômetro e custo.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Inclui <b>veículos já desativados</b> — o gasto aconteceu e continua contando.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>No painel do veículo, o mesmo dado aparece como <b>custo acumulado daquele carro</b>.</span></li>
+        </ul>
+      </div>
+      <div class="show-vis rv-mk">
+        <div class="mk">
+          <div class="mk-bar"><span class="mk-dots"><i></i><i></i><i></i></span><span class="mk-url mono">Gastos</span></div>
+          <div class="mk-body">
+            <div class="mk-h"><b>Total no período</b><small class="mono">200 registros mais recentes</small></div>
+            <div style="font-size:30px;font-weight:800;letter-spacing:-.04em;color:var(--ink);margin-bottom:16px">R$ 18.420,00</div>
+            <div class="mk-scroll">
+              <table class="mk-tbl">
+                <tr><th>Data</th><th>Veículo</th><th>Serviço</th><th class="num">Custo</th></tr>
+                <tr><td class="mono">12/07</td><td><b>Fiorino 02</b></td><td>Pastilha de freio</td><td class="num">R$ 480,00</td></tr>
+                <tr><td class="mono">08/07</td><td><b>Van 04</b></td><td>Troca de óleo</td><td class="num">R$ 390,00</td></tr>
+                <tr><td class="mono">30/06</td><td><b>Utilitário 03</b></td><td>Suspensão dianteira</td><td class="num">R$ 1.250,90</td></tr>
+                <tr><td class="mono">21/06</td><td><b>Van 01</b></td><td>Revisão geral</td><td class="num">R$ 1.440,00</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ BENEFÍCIOS ════════════════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Resultado</span>
+      <h2>O que muda na operação</h2>
+      <p>Não é sobre ter mais um sistema. É sobre parar de descobrir o problema depois que ele aconteceu.</p>
+    </div>
+
+    <div class="ben-grid">
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <h3>Decisão em dez segundos</h3>
+        <p>Abrir o painel e saber quais veículos precisam de atenção hoje, sem consultar ninguém.</p>
+      </div>
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V6l8-3 8 3Z"/></svg></div>
+        <h3>Menos conserto, mais revisão</h3>
+        <p>O aviso chega antes do vencimento — por quilometragem e por tempo — em vez de chegar pelo barulho.</p>
+      </div>
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
+        <h3>Custo com nome e sobrenome</h3>
+        <p>Quanto cada veículo consumiu desde o cadastro, e quanto a frota gastou nos últimos 90 dias.</p>
+      </div>
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div>
+        <h3>Histórico que não se perde</h3>
+        <p>Veículo vendido é desativado, não apagado — o passado financeiro da empresa continua íntegro.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PARA QUEM É ════════════════ -->
+<section class="sec sec-tint">
+  <div class="wrap aud-wrap">
+    <div class="rv">
+      <span class="eyebrow"><i></i> Para quem é</span>
+      <h2>Feito para quem tem frota, mas não tem sistema</h2>
+      <p style="color:var(--ink-3);font-size:17px;margin-top:14px">
+        O ponto ideal são operações de <strong style="color:var(--ink-2)">3 a 30 veículos</strong> — grandes o
+        bastante para o controle manual falhar, pequenas o bastante para um ERP ser desproporcional.
+      </p>
+      <div class="notfor">
+        <b>Provavelmente não é para você se…</b>
+        <p>a frota já roda com telemetria embarcada, integração com ERP ou gestão de jornada e multas.
+        O Frota-Lite resolve manutenção — bem — e não tenta ser o resto.</p>
+      </div>
+    </div>
+
+    <div class="aud-grid">
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 9h.01M9 13h.01M9 17h.01M15 9h.01M15 13h.01M15 17h.01"/></svg></span><b>Instaladoras<span>equipes que rodam o dia inteiro entre clientes</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m14.7 6.3 3 3"/><path d="M17 3a4.24 4.24 0 0 0-3 7.2L4 20l1 1 9.8-10A4.24 4.24 0 0 0 21 7"/></svg></span><b>Assistências técnicas<span>veículos de atendimento em campo</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 17V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h1"/><path d="M14 9h4l3 4v4a1 1 0 0 1-1 1h-1"/><circle cx="6.5" cy="17.5" r="2"/><circle cx="16.5" cy="17.5" r="2"/></svg></span><b>Transportadoras pequenas<span>e distribuidoras regionais</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 20V8l8-5 8 5v12"/><path d="M10 20v-6h4v6"/></svg></span><b>Construtoras<span>utilitários, caminhonetes e caçambas</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 8.5 12 12l3.5-3.5"/><circle cx="12" cy="12" r="9"/></svg></span><b>Empresas de limpeza<span>e conservação com veículos próprios</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg></span><b>Gestores administrativos<span>que hoje são o “sistema” da empresa</span></b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ MÉTRICAS CONCEITUAIS ════════════════ -->
+<section class="sec sec-sm">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <span class="eyebrow" style="justify-content:center"><i></i> O que dá para medir</span>
+      <h2>Ganhos que a própria operação enxerga</h2>
+      <p>Sem número de cliente inventado: estes são os efeitos diretos de sair do controle manual.</p>
+    </div>
+    <div class="mets">
+      <div class="met rv"><b>1</b><span class="lbl">fonte de verdade</span><p>Um lugar só no lugar do caderno, da planilha e da memória de alguém.</p></div>
+      <div class="met rv"><b>0</b><span class="lbl">recálculo manual</span><p>A próxima revisão é reprogramada pelo sistema ao registrar o serviço.</p></div>
+      <div class="met rv"><b><span data-count="100" data-suffix="%">100%</span></b><span class="lbl">dos serviços rastreáveis</span><p>Data, quilometragem, custo, oficina e anexo ligados ao veículo certo.</p></div>
+      <div class="met rv"><b>3 → 30</b><span class="lbl">veículos por conta</span><p>A faixa em que o controle manual já falha e o ERP ainda não se paga.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ SEGURANÇA ════════════════ -->
+<section class="sec sec-dark" id="seguranca">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Segurança</span>
+      <h2>Os dados da sua empresa são só seus</h2>
+      <p>O isolamento entre empresas não depende de um <code>if</code> esquecido no código — é garantido no próprio banco de dados.</p>
+    </div>
+
+    <div class="secu-grid">
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3>Isolamento em três camadas</h3>
+        <p>Row Level Security no PostgreSQL, filtro por empresa na aplicação e chaves estrangeiras compostas. Uma empresa não alcança o dado da outra nem por erro de programação.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></div>
+        <h3>Senha e sessão</h3>
+        <p>Senha com <code>scrypt</code> e sal individual; o banco guarda só o hash. A sessão é um cookie <code>HttpOnly</code> assinado com HMAC, com checagem de origem em toda escrita.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M9 15h6"/></svg></div>
+        <h3>Registro sem dado pessoal</h3>
+        <p>Os logs do sistema não recebem e-mail, nome, telefone, fornecedor ou nome de arquivo. A placa aparece mascarada — o suficiente para investigar, insuficiente para identificar.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></div>
+        <h3>Exportação a qualquer momento</h3>
+        <p>Um clique baixa em JSON tudo que a empresa cadastrou: veículos, planos, serviços, gastos, notas e a relação de anexos. Seu dado não fica refém do sistema.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
+        <h3>Exclusão com trava</h3>
+        <p>Excluir a conta exige digitar o próprio e-mail, validado no servidor. Se a empresa tiver outros membros, os dados dela não são apagados junto.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>Verificado por testes</h3>
+        <p>242 testes automatizados rodando em integração contínua, incluindo cenários de acesso cruzado entre empresas e as regras de cálculo dos planos.</p>
+      </div>
+    </div>
+
+    <p class="secu-note rv">
+      <b style="color:#c7ccd8">Sobre a LGPD:</b> o sistema implementa práticas técnicas de apoio à proteção de dados —
+      isolamento por empresa, menor privilégio, minimização em logs, exportação e exclusão. Isso não constitui, por si,
+      conformidade com a LGPD: base legal, política de retenção e prazo de resposta a titulares são decisões de quem opera o sistema.
+    </p>
+
+    <div class="stack-row rv" style="margin-top:30px">
+      <span class="tech">Next.js 16</span><span class="tech">TypeScript strict</span><span class="tech">PostgreSQL 16 + RLS</span>
+      <span class="tech">Integração contínua</span><span class="tech">242 testes</span><span class="tech">6 dependências de produção</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FAQ ════════════════ -->
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <span class="eyebrow" style="justify-content:center"><i></i> Dúvidas frequentes</span>
+      <h2>O que costumam perguntar</h2>
+    </div>
+
+    <div class="faq rv">
+      <details>
+        <summary>Preciso instalar alguma coisa?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Não. O Frota-Lite roda no navegador — abre no computador do escritório e no celular de quem estiver na rua. Não há app para baixar nem programa para instalar em cada máquina.</div>
+      </details>
+      <details>
+        <summary>O sistema controla combustível e motoristas?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Não, e isso é uma decisão de escopo. O produto é um <b>controle de manutenção</b>: veículos, planos de revisão, serviços executados, custos e anexos. Abastecimento, jornada, multas e rastreamento por GPS estão fora — preferimos fazer uma coisa bem a fazer dez pela metade.</div>
+      </details>
+      <details>
+        <summary>E se ninguém atualizar a quilometragem?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">O sistema <b>avisa que não sabe</b>, em vez de estimar. Cada veículo mostra há quantos dias foi a última leitura, e a tela de quilometragem em lote existe justamente para tornar a atualização de toda a frota uma tarefa de um minuto.</div>
+      </details>
+      <details>
+        <summary>Uma manutenção pode vencer por tempo e por quilometragem ao mesmo tempo?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Pode. É o caso clássico do óleo: “a cada 10.000 km <b>ou</b> a cada 6 meses”. Basta preencher os dois intervalos — o sistema usa o pior dos dois status, ou seja, o que vencer primeiro é o que aparece no painel.</div>
+      </details>
+      <details>
+        <summary>Serve para uma empresa com poucos veículos?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Serve — a faixa pensada é de <b>3 a 30 veículos</b>. Abaixo disso o caderno ainda funciona; acima disso a empresa normalmente já tem telemetria e ERP. O ponto ideal é a operação em que o controle manual começou a falhar.</div>
+      </details>
+      <details>
+        <summary>Como é feita a implantação?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Criando a conta da empresa, cadastrando os veículos com a quilometragem atual e definindo os planos de manutenção de cada um. A partir daí o painel já começa a mostrar as cores certas. Posso conduzir esse cadastro inicial junto com sua equipe.</div>
+      </details>
+      <details>
+        <summary>Consigo levar meus dados embora?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Sim, a qualquer momento e sem pedir para ninguém. A tela de conta exporta em JSON tudo que a empresa cadastrou — veículos, planos, serviços, gastos, notas e a relação de anexos.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CTA FINAL ════════════════ -->
+<section class="sec sec-sm">
+  <div class="wrap">
+    <div class="cta rv">
+      <h2>Pronto para saber qual veículo precisa de atenção hoje?</h2>
+      <p>Marque uma demonstração de 20 minutos: mostro o painel funcionando com uma frota parecida com a sua.</p>
+      <div class="btn-row">
+        <a class="btn btn-w btn-lg" href="mailto:orleanssamai128@gmail.com?subject=Demonstra%C3%A7%C3%A3o%20do%20Frota-Lite&amp;body=Ol%C3%A1%2C%20Orleans.%20Gostaria%20de%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Frota-Lite.%0A%0AEmpresa%3A%0AQuantidade%20de%20ve%C3%ADculos%3A%0AMelhor%20hor%C3%A1rio%20para%20contato%3A">
+          Solicitar demonstração
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-o btn-lg" href="mailto:orleanssamai128@gmail.com?subject=Falar%20sobre%20o%20Frota-Lite">Falar sobre o projeto</a>
+      </div>
+      <p class="cta-fine">Resposta em até um dia útil · Sem compromisso</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ OUTROS PRODUTOS ════════════════ -->
+<section class="sec sec-sm sec-soft">
+  <div class="wrap">
+    <div class="sec-head rv" style="margin-bottom:34px">
+      <span class="eyebrow"><i></i> Vitrine</span>
+      <h2 style="font-size:clamp(23px,2.8vw,32px)">Conheça outras soluções</h2>
+    </div>
+    <div class="cross">
+      <a class="cross-card rv" href="../cota-flow/">
+        <div class="cross-vis" style="background:linear-gradient(140deg,rgba(124,58,237,.10),rgba(124,58,237,.02))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
+        </div>
+        <div class="cross-in">
+          <span class="cat">Compras</span>
+          <h3>Cota-Flow</h3>
+          <p>Cotações organizadas do pedido à decisão. O fornecedor responde por um link, sem criar conta.</p>
+          <span class="go" style="color:#6d28d9">Conhecer projeto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cross-card rv" href="../ebike-support/">
+        <div class="cross-vis" style="background:linear-gradient(140deg,rgba(5,150,105,.10),rgba(5,150,105,.02))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
+        </div>
+        <div class="cross-in">
+          <span class="cat">Pós-venda</span>
+          <h3>eBike Suporte</h3>
+          <p>Cada bicicleta, cada chamado e todo o histórico técnico em um só lugar, do cliente ao técnico.</p>
+          <span class="go" style="color:#047857">Conhecer projeto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cross-card rv" href="../autoatendimento/">
+        <div class="cross-vis" style="background:linear-gradient(140deg,rgba(234,88,12,.10),rgba(234,88,12,.02))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/></svg>
+        </div>
+        <div class="cross-in">
+          <span class="cat">Restaurantes</span>
+          <h3>Autoatendimento QR</h3>
+          <p>O cliente pede pelo próprio celular, o garçom confirma em um clique e a cozinha imprime sozinha.</p>
+          <span class="go" style="color:#c2410c">Conhecer projeto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pfoot">
+  <div class="wrap">
+    <div class="pfoot-in">
+      <div class="pfoot-brand">
+        <b>Orleans Samai</b>
+        <p>Produtos digitais para operações que cresceram além da planilha — construídos, documentados e testados.</p>
+      </div>
+      <div class="pfoot-cols">
+        <div class="pfoot-col">
+          <b>Produtos</b>
+          <a href="../frota-lite/">Frota-Lite</a>
+          <a href="../cota-flow/">Cota-Flow</a>
+          <a href="../autoatendimento/">Autoatendimento QR</a>
+          <a href="../ebike-support/">eBike Suporte</a>
+          <a href="../church-slides/">Church Slides Studio</a>
+        </div>
+        <div class="pfoot-col">
+          <b>Navegar</b>
+          <a href="../">Todos os produtos</a>
+          <a href="../../">Portfólio</a>
+          <a href="https://github.com/orleanss777-sys" target="_blank" rel="noopener">GitHub</a>
+          <a href="mailto:orleanssamai128@gmail.com">Contato</a>
+        </div>
+      </div>
+    </div>
+    <div class="pfoot-bot">
+      <span>© <span data-year>2026</span> Orleans Samai. Todos os direitos reservados.</span>
+      <span>Frota-Lite · controle de manutenção de frota</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/js/produtos.js" defer></script>
+</body>
+</html>

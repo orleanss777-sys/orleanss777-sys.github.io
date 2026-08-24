@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cota-Flow | Cotações organizadas da solicitação à decisão</title>
+<meta name="description" content="O Cota-Flow centraliza solicitações, fornecedores e propostas de compra. Cada fornecedor responde por um link próprio, sem criar conta, e você compara tudo lado a lado numa tela só.">
+<link rel="canonical" href="https://orleanss777-sys.github.io/projetos/cota-flow/">
+<meta name="theme-color" content="#7c3aed">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%237c3aed'/><text y='70' x='50' font-size='54' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold'>C</text></svg>">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Orleans Samai · Produtos">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Cota-Flow | Cotações organizadas da solicitação à decisão">
+<meta property="og:description" content="Pare de comparar propostas em cinco e-mails e duas planilhas. Um link por fornecedor, uma tela de comparação, uma decisão.">
+<meta property="og:url" content="https://orleanss777-sys.github.io/projetos/cota-flow/">
+<meta name="twitter:card" content="summary">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/produtos.css">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --accent:#7c3aed;
+    --accent-ink:#6d28d9;
+    --accent-soft:rgba(124,58,237,.10);
+    --accent-line:rgba(124,58,237,.22);
+  }
+  /* trilha do fluxo de cotação — identidade própria da página */
+  .cf-flow{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin-top:30px}
+  .cf-flow .node{
+    display:flex;align-items:center;gap:9px;padding:9px 15px;border-radius:11px;
+    border:1px solid var(--line);background:#fff;font-size:13.5px;font-weight:600;color:var(--ink);
+    box-shadow:var(--sh-1);
+  }
+  .cf-flow .node small{display:block;font-size:11px;color:var(--ink-4);font-weight:400}
+  .cf-flow .node.hi{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+  .cf-flow .link{flex:1;min-width:20px;height:1px;background:var(--line);position:relative}
+  .cf-flow .link::after{
+    content:"";position:absolute;right:-1px;top:-3px;border:3.5px solid transparent;border-left-color:var(--line);
+  }
+  @media(max-width:900px){
+    .cf-flow{flex-direction:column;align-items:stretch;gap:8px}
+    .cf-flow .node{justify-content:center}
+    .cf-flow .link{height:16px;width:1px;margin:0 auto}
+    .cf-flow .link::after{right:-3.5px;top:auto;bottom:-1px;border-color:transparent;border-top-color:var(--line)}
+  }
+  .cf-tokenbox{
+    display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;
+    border:1px dashed var(--accent-line);background:var(--accent-soft);font-size:11px;
+    color:var(--accent-ink);margin-top:10px;
+  }
+  .cf-tokenbox svg{width:14px;height:14px;flex:none}
+</style>
+</head>
+<body>
+
+<header class="pnav">
+  <div class="wrap pnav-in">
+    <a class="pbrand" href="../">
+      <span class="pmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15v3"/><path d="M12 10v8"/><path d="M17 6v12"/></svg></span>
+      <span class="pbrand-txt"><b>Cota-Flow</b><small>Cotações e comparação de propostas</small></span>
+    </a>
+    <nav class="pnav-links">
+      <a href="#problema">O problema</a>
+      <a href="#como">Como funciona</a>
+      <a href="#recursos">Recursos</a>
+      <a href="#telas">Telas</a>
+      <a href="#seguranca">Segurança</a>
+      <a href="#faq">Dúvidas</a>
+    </nav>
+    <div class="pnav-right">
+      <a class="pnav-back" href="../">← Produtos</a>
+      <a class="btn btn-p" href="mailto:orleanssamai128@gmail.com?subject=Demonstra%C3%A7%C3%A3o%20do%20Cota-Flow&amp;body=Ol%C3%A1%2C%20Orleans.%20Gostaria%20de%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Cota-Flow.%0A%0AEmpresa%3A%0ACota%C3%A7%C3%B5es%20por%20m%C3%AAs%3A%0AMelhor%20hor%C3%A1rio%20para%20contato%3A">Solicitar demonstração</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ════════════════ HERO ════════════════ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="pill rv">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Cotações para times de compras enxutos
+      </span>
+      <h1 class="rv">Cotações organizadas. Decisões mais rápidas.</h1>
+      <p class="sub rv">
+        Pedir preço para cinco fornecedores hoje significa cinco e-mails, cinco respostas em formatos diferentes
+        e uma planilha montada à mão para comparar. O Cota-Flow dá <strong>um link para cada fornecedor</strong>,
+        recebe as propostas já estruturadas e coloca todas <strong>lado a lado numa tela só</strong>.
+      </p>
+      <div class="btn-row rv">
+        <a class="btn btn-p btn-lg" href="mailto:orleanssamai128@gmail.com?subject=Demonstra%C3%A7%C3%A3o%20do%20Cota-Flow&amp;body=Ol%C3%A1%2C%20Orleans.%20Gostaria%20de%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Cota-Flow.%0A%0AEmpresa%3A%0ACota%C3%A7%C3%B5es%20por%20m%C3%AAs%3A%0AMelhor%20hor%C3%A1rio%20para%20contato%3A">
+          Solicitar demonstração
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-s btn-lg" href="#como">Ver como funciona</a>
+      </div>
+      <p class="hero-note rv">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ok)"><path d="M20 6 9 17l-5-5"/></svg>
+        <b>O fornecedor não cria conta, não instala nada.</b> Ele abre o link e preenche.
+      </p>
+    </div>
+
+    <div class="rv-mk">
+      <div class="mk mk-float">
+        <div class="mk-bar">
+          <span class="mk-dots"><i></i><i></i><i></i></span>
+          <span class="mk-url mono">Cotação #142 · Comparação de propostas</span>
+        </div>
+        <div class="mk-body">
+          <div class="mk-h">
+            <b>Material elétrico — obra Centro</b>
+            <small class="mono">encerra em 2 dias</small>
+          </div>
+          <div class="mk-scroll">
+            <table class="mk-tbl">
+              <tr>
+                <th>Fornecedor</th><th class="num">Subtotal</th><th class="num">Frete</th>
+                <th class="num">Total</th><th>Entrega</th><th>Itens</th>
+              </tr>
+              <tr class="best">
+                <td><b>Elétrica Norte</b></td>
+                <td class="num">R$ 4.180,00</td>
+                <td class="num">R$ 220,00</td>
+                <td class="num"><b>R$ 4.400,00</b></td>
+                <td class="mono">7 dias</td>
+                <td><span class="st st-ok">✓ 6 de 6</span></td>
+              </tr>
+              <tr>
+                <td><b>Casa do Eletricista</b></td>
+                <td class="num">R$ 4.390,00</td>
+                <td class="num">R$ 180,00</td>
+                <td class="num"><b>R$ 4.570,00</b></td>
+                <td class="mono">4 dias</td>
+                <td><span class="st st-ok">✓ 6 de 6</span></td>
+              </tr>
+              <tr>
+                <td><b>Distribuidora Sul</b></td>
+                <td class="num">R$ 3.910,00</td>
+                <td class="num">—</td>
+                <td class="num"><b>R$ 3.910,00</b></td>
+                <td class="mono">12 dias</td>
+                <td><span class="st st-warn">▲ 4 de 6</span></td>
+              </tr>
+              <tr>
+                <td><b>Fornecedora Prime</b></td>
+                <td class="num">—</td><td class="num">—</td><td class="num">—</td>
+                <td class="mono">—</td>
+                <td><span class="st st-neutral">Visualizou</span></td>
+              </tr>
+            </table>
+          </div>
+          <div class="cf-tokenbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            <span><b>Distribuidora Sul</b> não ofertou 2 itens — o total menor não é comparável e o sistema deixa isso explícito.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PROBLEMA ════════════════ -->
+<section class="sec sec-soft" id="problema">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> O problema</span>
+      <h2>Cotar hoje é um trabalho de arquivista</h2>
+      <p>A parte difícil de comprar bem nunca foi pedir preço. É juntar as respostas.</p>
+    </div>
+
+    <div class="prob-grid">
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Cada um responde de um jeito</h3>
+        <p>Um manda PDF, outro responde no corpo do e-mail, um terceiro manda áudio no WhatsApp. Comparar exige transcrever tudo.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>A planilha refeita toda vez</h3>
+        <p>Montar a comparação à mão, item por item, é onde o erro de digitação entra — e vira decisão errada de milhares de reais.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Proposta incompleta que parece barata</h3>
+        <p>O fornecedor que não cotou dois itens sempre aparece com o menor total. Quem compara às pressas escolhe errado.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Ninguém sabe quem já respondeu</h3>
+        <p>“O fulano mandou?” vira uma varredura na caixa de entrada. E o prazo fecha sem cobrar quem faltou.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Histórico que evapora</h3>
+        <p>Seis meses depois, ninguém consegue provar quanto cada fornecedor pediu naquela compra — nem por que a decisão foi aquela.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Portal que o fornecedor não usa</h3>
+        <p>Sistemas de compras exigem que o fornecedor crie conta, lembre a senha e aprenda a navegar. Metade desiste e volta pro e-mail.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ SOLUÇÃO ════════════════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <span class="eyebrow"><i></i> A solução</span>
+      <h2>Um processo só, do pedido à decisão</h2>
+      <p>Você estrutura a cotação uma vez. Todo mundo responde no mesmo formato — porque só existe um formato.</p>
+    </div>
+
+    <div class="ba">
+      <div class="ba-col before rv">
+        <span class="ba-tag">Antes</span>
+        <h3>Cinco caixas de entrada</h3>
+        <ul class="ba-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Respostas em PDF, e-mail e mensagem</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Comparação digitada à mão</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Proposta incompleta passando por barata</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Sem saber quem já respondeu</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Histórico disperso em anexos</li>
+        </ul>
+      </div>
+
+      <div class="ba-arrow rv">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+
+      <div class="ba-col after rv">
+        <span class="ba-tag">Com o Cota-Flow</span>
+        <h3>Uma cotação, uma tela</h3>
+        <ul class="ba-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Todos respondem no mesmo formulário</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Comparação montada sozinha, item por item</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Proposta incompleta sinalizada, nunca equiparada</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Status por fornecedor: enviado, visto, respondido</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Cada cotação guardada com o que foi pedido e ofertado</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ COMO FUNCIONA ════════════════ -->
+<section class="sec sec-tint" id="como">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Como funciona</span>
+      <h2>Da solicitação à decisão em cinco etapas</h2>
+      <p>Você controla as duas pontas. O fornecedor só precisa abrir um link e preencher.</p>
+    </div>
+
+    <div class="cf-flow rv">
+      <span class="node hi">01 <small>Solicitação</small></span>
+      <span class="link"></span>
+      <span class="node">02 <small>Fornecedores</small></span>
+      <span class="link"></span>
+      <span class="node">03 <small>Propostas</small></span>
+      <span class="link"></span>
+      <span class="node">04 <small>Comparação</small></span>
+      <span class="link"></span>
+      <span class="node hi">05 <small>Decisão</small></span>
+    </div>
+
+    <div class="steps" style="margin-top:46px">
+      <div class="step rv">
+        <div class="n">01</div>
+        <h3>Monte a cotação</h3>
+        <p>Título, descrição, prazo e os itens — cada um com descrição, quantidade e unidade. Ela nasce como rascunho e pode ser editada à vontade.</p>
+      </div>
+      <div class="step rv">
+        <div class="n">02</div>
+        <h3>Escolha os fornecedores</h3>
+        <p>Selecione do seu cadastro. Ao abrir a cotação, o sistema gera um <b>link individual</b> para cada um — nenhum vê o link do outro.</p>
+      </div>
+      <div class="step rv">
+        <div class="n">03</div>
+        <h3>Receba as propostas</h3>
+        <p>O fornecedor abre, preenche preço por item, frete, prazo e condição de pagamento. Você acompanha quem visualizou e quem já respondeu.</p>
+      </div>
+      <div class="step rv">
+        <div class="n">04</div>
+        <h3>Compare e decida</h3>
+        <p>A tela de comparação organiza tudo lado a lado. O sistema ordena para facilitar a leitura — mas <b>quem escolhe é você</b>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ RECURSOS ════════════════ -->
+<section class="sec" id="recursos">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Recursos</span>
+      <h2>O que está pronto e funcionando</h2>
+      <p>Tudo abaixo já existe no sistema hoje — nada listado como “em breve”.</p>
+    </div>
+
+    <div class="feat-grid">
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7L12 19"/></svg></div>
+        <h3>Link individual por fornecedor</h3>
+        <p>Cada convite recebe seu próprio endereço. O fornecedor responde sem criar conta, sem senha e sem instalar nada.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M15 3v18"/></svg></div>
+        <h3>Comparação lado a lado</h3>
+        <p>Preço por item, subtotal, frete e total de cada proposta na mesma tabela — com prazo de entrega e condição de pagamento junto.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.7 16.4-.9-.3"/><path d="m3.2 7.9-.9-.4"/><path d="m10.4 3.2-.4-.9"/><path d="M8 12a4 4 0 1 1 8 0c0 1.5-.8 2-1.5 2.8-.7.8-.5 1.2-.5 2.2H10c0-1-.2-1.4-.9-2.2C8.4 14 8 13.5 8 12Z"/><path d="M10 21h4"/></svg></div>
+        <h3>Proposta incompleta sinalizada</h3>
+        <p>Quem não ofertou todos os itens aparece com a contagem explícita e os itens faltantes nomeados. O total menor nunca passa por vencedor.</p>
+        <div class="mini mono">Distribuidora Sul · <b>4 de 6 itens</b> · falta: eletroduto 25 mm, curva 90°</div>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3>Prazo que se respeita sozinho</h3>
+        <p>A cotação só abre com prazo futuro, ao menos um item e um fornecedor. Encerrada, cancelada ou vencida, ela bloqueia novas respostas.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h3>Status de cada convite</h3>
+        <p>Pendente, visualizado, respondido ou revogado — com a data de cada passo. Dá para cobrar quem faltou antes do prazo fechar.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+        <h3>Cadastro de fornecedores</h3>
+        <p>Nome, contato, e-mail, telefone e observações. Fornecedor desativado sai das novas cotações mas permanece no histórico das antigas.</p>
+      </div>
+    </div>
+
+    <div class="notfor rv" style="margin-top:34px;max-width:74ch">
+      <b>Onde termina o escopo atual</b>
+      <p>O envio dos links é feito por você — o sistema gera o endereço, mas não dispara e-mail nem WhatsApp,
+      e não conversa com ERP. Cada proposta é definitiva depois de enviada: no formato atual, o fornecedor não
+      reabre para editar. São decisões conscientes de MVP, não omissões.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ DEMONSTRAÇÃO VISUAL ════════════════ -->
+<section class="sec sec-soft" id="telas">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Por dentro do sistema</span>
+      <h2>As duas experiências, lado a lado</h2>
+      <p>Quem compra tem um painel completo. Quem fornece tem uma página só — e ela precisa ser óbvia.</p>
+    </div>
+
+    <!-- show 1 -->
+    <div class="show">
+      <div class="show-txt rv">
+        <h3>O painel de quem compra</h3>
+        <p>Todas as cotações da empresa, com status e prazo visíveis antes de qualquer clique.</p>
+        <ul class="show-pts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>Rascunho, aberta, encerrada ou cancelada</b> — o estado da cotação define o que pode ser feito nela.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Quantos fornecedores foram convidados e <b>quantos já responderam</b>.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Rascunhos ficam editáveis; cotações abertas passam a receber propostas.</span></li>
+        </ul>
+      </div>
+      <div class="show-vis rv-mk">
+        <div class="mk">
+          <div class="mk-bar"><span class="mk-dots"><i></i><i></i><i></i></span><span class="mk-url mono">Painel de cotações</span></div>
+          <div class="mk-body">
+            <div class="mk-h"><b>Minhas cotações</b><small class="mono">4 ativas</small></div>
+            <div class="mk-row hot" style="border-color:rgba(124,58,237,.24);background:linear-gradient(90deg,rgba(124,58,237,.05),#fff 46%)">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11h6"/><path d="M9 15h4"/><rect x="4" y="3" width="16" height="18" rx="2"/></svg></span>
+              <span class="tx"><b>Material elétrico — obra Centro</b><span>6 itens · 4 fornecedores convidados</span></span>
+              <span class="rt"><b>3 respostas</b><span class="st st-acc">Aberta</span></span>
+            </div>
+            <div class="mk-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11h6"/><path d="M9 15h4"/><rect x="4" y="3" width="16" height="18" rx="2"/></svg></span>
+              <span class="tx"><b>Uniformes — equipe operacional</b><span>3 itens · 5 fornecedores convidados</span></span>
+              <span class="rt"><b>5 respostas</b><span class="st st-ok">Encerrada</span></span>
+            </div>
+            <div class="mk-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11h6"/><path d="M9 15h4"/><rect x="4" y="3" width="16" height="18" rx="2"/></svg></span>
+              <span class="tx"><b>Papelaria — escritório</b><span>11 itens · aguardando abertura</span></span>
+              <span class="rt"><b>—</b><span class="st st-neutral">Rascunho</span></span>
+            </div>
+            <div class="mk-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11h6"/><path d="M9 15h4"/><rect x="4" y="3" width="16" height="18" rx="2"/></svg></span>
+              <span class="tx"><b>Manutenção predial — 2º semestre</b><span>8 itens · 3 fornecedores convidados</span></span>
+              <span class="rt"><b>1 resposta</b><span class="st st-warn">Encerra hoje</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- show 2 -->
+    <div class="show flip">
+      <div class="show-txt rv">
+        <h3>A página de quem fornece</h3>
+        <p>Sem cadastro, sem senha, sem menu. O fornecedor abre o link e vê exatamente o que precisa preencher.</p>
+        <ul class="show-pts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Preço por item, com a opção honesta de <b>“não trabalho com este item”</b>.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Frete, prazo de entrega e condição de pagamento no mesmo envio.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Ele <b>não enxerga os concorrentes</b> nem nada administrativo da sua empresa.</span></li>
+        </ul>
+      </div>
+      <div class="show-vis rv-mk">
+        <div class="mk">
+          <div class="mk-bar"><span class="mk-dots"><i></i><i></i><i></i></span><span class="mk-url mono">cota-flow · /quote/•••••••• — link do fornecedor</span></div>
+          <div class="mk-body">
+            <div class="mk-h">
+              <b>Proposta · Material elétrico — obra Centro</b>
+              <small class="mono">prazo: 2 dias</small>
+            </div>
+            <div class="mk-scroll">
+              <table class="mk-tbl">
+                <tr><th>Item</th><th class="num">Qtde</th><th class="num">Preço unit.</th></tr>
+                <tr><td><b>Cabo flexível 2,5 mm²</b><br><span style="color:var(--ink-4)">rolo 100 m</span></td><td class="num mono">12</td><td class="num mono">R$ 189,00</td></tr>
+                <tr><td><b>Disjuntor bipolar 40 A</b></td><td class="num mono">20</td><td class="num mono">R$ 38,50</td></tr>
+                <tr><td><b>Eletroduto 25 mm</b></td><td class="num mono">50</td><td class="num"><span class="st st-neutral">não trabalho</span></td></tr>
+                <tr><td><b>Quadro de distribuição 12 div.</b></td><td class="num mono">3</td><td class="num mono">R$ 264,00</td></tr>
+              </table>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px">
+              <div class="mk-kpi"><b>R$ 220,00</b><span>FRETE</span></div>
+              <div class="mk-kpi"><b>7 dias</b><span>ENTREGA</span></div>
+              <div class="mk-kpi"><b>28 ddl</b><span>PAGAMENTO</span></div>
+            </div>
+            <div style="display:flex;justify-content:flex-end;margin-top:14px">
+              <span class="st st-acc" style="padding:6px 14px;font-size:11.5px">Enviar proposta</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- show 3 -->
+    <div class="show" style="margin-bottom:0">
+      <div class="show-txt rv">
+        <h3>Acompanhamento dos convites</h3>
+        <p>Antes de o prazo fechar, dá para saber exatamente quem está faltando — e há quanto tempo.</p>
+        <ul class="show-pts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>O sistema registra <b>quando o link foi aberto pela primeira vez</b>.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Convite pode ser <b>revogado</b> sem apagar o histórico da cotação.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Um fornecedor por cotação — não há como responder duas vezes por engano.</span></li>
+        </ul>
+      </div>
+      <div class="show-vis rv-mk">
+        <div class="mk">
+          <div class="mk-bar"><span class="mk-dots"><i></i><i></i><i></i></span><span class="mk-url mono">Cotação #142 · Convites</span></div>
+          <div class="mk-body">
+            <div class="mk-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="tx"><b>Elétrica Norte</b><span>respondeu há 2 horas</span></span>
+              <span class="rt"><span class="st st-ok">✓ Respondido</span></span>
+            </div>
+            <div class="mk-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="tx"><b>Casa do Eletricista</b><span>respondeu ontem</span></span>
+              <span class="rt"><span class="st st-ok">✓ Respondido</span></span>
+            </div>
+            <div class="mk-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></span>
+              <span class="tx"><b>Fornecedora Prime</b><span>abriu o link há 3 dias, não respondeu</span></span>
+              <span class="rt"><span class="st st-warn">▲ Visualizou</span></span>
+            </div>
+            <div class="mk-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg></span>
+              <span class="tx"><b>Suprimentos Vale</b><span>link enviado, ainda não aberto</span></span>
+              <span class="rt"><span class="st st-neutral">Pendente</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ BENEFÍCIOS ════════════════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Resultado</span>
+      <h2>O que muda no setor de compras</h2>
+      <p>O ganho não é “ter um sistema de cotação”. É deixar de montar planilha e passar a decidir com o quadro completo.</p>
+    </div>
+
+    <div class="ben-grid">
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/></svg></div>
+        <h3>Comparação instantânea</h3>
+        <p>A tabela se monta sozinha conforme as respostas chegam. Ninguém transcreve preço de PDF para planilha.</p>
+      </div>
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V6l8-3 8 3Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>Decisão sem armadilha</h3>
+        <p>Proposta incompleta fica marcada como incompleta. O menor total só ganha destaque quando cobre tudo que foi pedido.</p>
+      </div>
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m17 11 2 2 4-4"/></svg></div>
+        <h3>Adesão do fornecedor</h3>
+        <p>Sem conta para criar e sem senha para esquecer, a taxa de resposta deixa de depender da boa vontade de aprender um portal.</p>
+      </div>
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M9 15h6"/></svg></div>
+        <h3>Auditoria natural</h3>
+        <p>Meses depois, a cotação inteira continua lá: o que foi pedido, quem foi convidado, quem respondeu o quê e quando.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PARA QUEM É ════════════════ -->
+<section class="sec sec-tint">
+  <div class="wrap aud-wrap">
+    <div class="rv">
+      <span class="eyebrow"><i></i> Para quem é</span>
+      <h2>Feito para quem compra bastante e não tem um departamento inteiro</h2>
+      <p style="color:var(--ink-3);font-size:17px;margin-top:14px">
+        Onde o Cota-Flow brilha é na empresa que faz <strong style="color:var(--ink-2)">várias cotações por mês</strong>
+        com um punhado de fornecedores recorrentes — e hoje resolve isso no e-mail.
+      </p>
+      <div class="notfor">
+        <b>Provavelmente não é para você se…</b>
+        <p>sua operação exige integração com ERP, pregão eletrônico, leilão reverso ou fluxo de aprovação
+        em múltiplos níveis. O Cota-Flow organiza a cotação em si — não o processo de compras inteiro.</p>
+      </div>
+    </div>
+
+    <div class="aud-grid">
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 9 1-5h18l1 5"/><path d="M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9"/><path d="M8 21v-6h8v6"/></svg></span><b>Setor de compras<span>de pequenas e médias empresas</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 20V8l8-5 8 5v12"/><path d="M10 20v-6h4v6"/></svg></span><b>Construtoras<span>que cotam material a cada obra</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10"/><path d="M7 12h6"/></svg></span><b>Equipes administrativas<span>que compram para várias áreas</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></span><b>Indústrias pequenas<span>com compras recorrentes de insumos</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 9h.01M9 13h.01M15 9h.01M15 13h.01"/></svg></span><b>Escolas e clínicas<span>e outras organizações com orçamento apertado</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg></span><b>Gestores<span>que precisam justificar cada escolha</span></b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ MÉTRICAS ════════════════ -->
+<section class="sec sec-sm">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <span class="eyebrow" style="justify-content:center"><i></i> O que dá para medir</span>
+      <h2>Ganhos que aparecem já na primeira cotação</h2>
+      <p>Sem número de cliente inventado: estes são os efeitos diretos de estruturar o processo.</p>
+    </div>
+    <div class="mets">
+      <div class="met rv"><b>0</b><span class="lbl">contas para o fornecedor criar</span><p>Ele abre o link, preenche e envia. Nada além disso.</p></div>
+      <div class="met rv"><b>1</b><span class="lbl">formato de resposta</span><p>Todas as propostas chegam estruturadas do mesmo jeito, prontas para comparar.</p></div>
+      <div class="met rv"><b><span data-count="100" data-suffix="%">100%</span></b><span class="lbl">das propostas rastreáveis</span><p>Quem foi convidado, quem abriu, quem respondeu e o que ofertou item a item.</p></div>
+      <div class="met rv"><b>—</b><span class="lbl">planilha montada à mão</span><p>A comparação é gerada pelo sistema a partir das respostas recebidas.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ SEGURANÇA ════════════════ -->
+<section class="sec sec-dark" id="seguranca">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Segurança</span>
+      <h2>Link público não significa link frágil</h2>
+      <p>O fornecedor responde sem conta — mas isso não abre a porta para o resto da sua operação.</p>
+    </div>
+
+    <div class="secu-grid">
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3>Token aleatório de 256 bits</h3>
+        <p>Cada convite recebe um endereço impossível de adivinhar. O banco guarda apenas o <code>SHA-256</code> do token — nem o próprio sistema recupera o link depois.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+        <h3>Fornecedor vê só a própria cotação</h3>
+        <p>Nada de concorrentes, preços alheios ou dados administrativos. A página pública entrega exatamente os itens daquele convite.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.4 9.4 8 10 4.6-.6 8-5 8-10V6l-8-4Z"/></svg></div>
+        <h3>Empresa vem da sessão, não da URL</h3>
+        <p>Nenhum identificador enviado pelo navegador decide a qual organização o dado pertence. Toda consulta do comprador carrega a empresa obtida no servidor.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>Dinheiro sem erro de arredondamento</h3>
+        <p>Valores são guardados em centavos inteiros, não em ponto flutuante. R$ 0,01 de diferença numa soma de proposta simplesmente não acontece.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg></div>
+        <h3>Envio sem duplicata</h3>
+        <p>Cada proposta usa chave de idempotência: clicar duas vezes em “enviar”, ou perder a conexão no meio, não gera duas respostas do mesmo fornecedor.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/></svg></div>
+        <h3>Regras validadas no banco</h3>
+        <p>Quantidade positiva, frete não negativo, prazo de entrega maior que zero, um fornecedor por cotação — restrições gravadas no PostgreSQL, não só na tela.</p>
+      </div>
+    </div>
+
+    <p class="secu-note rv">
+      <b style="color:#c7ccd8">Transparência sobre limites:</b> o controle de tentativas nos links públicos é simples e por
+      instância — em volume alto, precisaria de um mecanismo distribuído. E, como sempre, conformidade integral com a LGPD
+      depende também de processos, retenção e contratos, não apenas do código.
+    </p>
+
+    <div class="stack-row rv" style="margin-top:30px">
+      <span class="tech">Next.js</span><span class="tech">TypeScript strict</span><span class="tech">PostgreSQL</span>
+      <span class="tech">Drizzle ORM</span><span class="tech">Validação com Zod</span><span class="tech">Valores em centavos</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FAQ ════════════════ -->
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <span class="eyebrow" style="justify-content:center"><i></i> Dúvidas frequentes</span>
+      <h2>O que costumam perguntar</h2>
+    </div>
+
+    <div class="faq rv">
+      <details>
+        <summary>Meu fornecedor precisa criar conta?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Não — e essa é justamente a decisão central do produto. Ele recebe um link individual, abre no navegador, preenche os preços e envia. <b>Sem cadastro, sem senha e sem aplicativo.</b> É por isso que a taxa de resposta não depende de convencer ninguém a aprender um portal.</div>
+      </details>
+      <details>
+        <summary>Como o fornecedor recebe o link?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">O sistema gera o link no momento em que a cotação é aberta, e <b>você envia pelo canal que já usa</b> — e-mail, WhatsApp, o que for. Disparo automático de mensagem não faz parte do escopo atual, o que também significa que você mantém o relacionamento com o fornecedor no seu canal de sempre.</div>
+      </details>
+      <details>
+        <summary>E se um fornecedor não cotar todos os itens?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Ele marca item por item o que não fornece — é uma resposta legítima, não um campo em branco. Na comparação, essa proposta aparece com a contagem (“4 de 6 itens”) e com os itens faltantes nomeados. <b>Ela nunca é apresentada como equivalente a uma proposta completa</b>, mesmo tendo o menor total.</div>
+      </details>
+      <details>
+        <summary>O sistema escolhe o vencedor?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Não. Ele <b>ordena para facilitar a leitura</b> — respondidas primeiro, completas antes das incompletas, e depois pelo menor total — mas a decisão é sua. Preço não é o único critério de compra, e um sistema que finge o contrário atrapalha mais do que ajuda.</div>
+      </details>
+      <details>
+        <summary>Dá para editar uma cotação depois de criada?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Enquanto está como <b>rascunho</b>, sim — itens, prazo e fornecedores. Depois de aberta, ela passa a receber propostas, e mudar as regras no meio do jogo seria injusto com quem já respondeu. Cotações encerradas, canceladas ou vencidas bloqueiam novas respostas automaticamente.</div>
+      </details>
+      <details>
+        <summary>Consigo desativar um fornecedor sem perder o histórico?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Sim. Fornecedor desativado deixa de aparecer nas novas cotações, mas <b>continua nas cotações antigas</b> com tudo o que ofertou. Apagar reescreveria o histórico de compras da empresa.</div>
+      </details>
+      <details>
+        <summary>Serve para uma empresa que faz poucas cotações?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Funciona, mas o ganho cresce com a frequência. Quem cota uma vez por trimestre convive bem com o e-mail; quem cota <b>toda semana</b>, com os mesmos fornecedores, é onde a estruturação se paga logo na primeira compra.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CTA FINAL ════════════════ -->
+<section class="sec sec-sm">
+  <div class="wrap">
+    <div class="cta rv">
+      <h2>Pronto para comparar propostas numa tela só?</h2>
+      <p>Marque uma demonstração de 20 minutos: monto uma cotação de exemplo com itens parecidos com os que sua empresa compra.</p>
+      <div class="btn-row">
+        <a class="btn btn-w btn-lg" href="mailto:orleanssamai128@gmail.com?subject=Demonstra%C3%A7%C3%A3o%20do%20Cota-Flow&amp;body=Ol%C3%A1%2C%20Orleans.%20Gostaria%20de%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Cota-Flow.%0A%0AEmpresa%3A%0ACota%C3%A7%C3%B5es%20por%20m%C3%AAs%3A%0AMelhor%20hor%C3%A1rio%20para%20contato%3A">
+          Solicitar demonstração
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-o btn-lg" href="mailto:orleanssamai128@gmail.com?subject=Falar%20sobre%20o%20Cota-Flow">Falar sobre o projeto</a>
+      </div>
+      <p class="cta-fine">Resposta em até um dia útil · Sem compromisso</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ OUTROS PRODUTOS ════════════════ -->
+<section class="sec sec-sm sec-soft">
+  <div class="wrap">
+    <div class="sec-head rv" style="margin-bottom:34px">
+      <span class="eyebrow"><i></i> Vitrine</span>
+      <h2 style="font-size:clamp(23px,2.8vw,32px)">Conheça outras soluções</h2>
+    </div>
+    <div class="cross">
+      <a class="cross-card rv" href="../frota-lite/">
+        <div class="cross-vis" style="background:linear-gradient(140deg,rgba(37,99,235,.10),rgba(37,99,235,.02))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 17V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h1"/><path d="M14 9h4l3 4v4a1 1 0 0 1-1 1h-1"/><circle cx="6.5" cy="17.5" r="2"/><circle cx="16.5" cy="17.5" r="2"/></svg>
+        </div>
+        <div class="cross-in">
+          <span class="cat">Frota</span>
+          <h3>Frota-Lite</h3>
+          <p>Qual veículo precisa de manutenção agora? A resposta numa tela, com a próxima revisão reprogramada sozinha.</p>
+          <span class="go" style="color:#1d4ed8">Conhecer projeto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cross-card rv" href="../ebike-support/">
+        <div class="cross-vis" style="background:linear-gradient(140deg,rgba(5,150,105,.10),rgba(5,150,105,.02))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
+        </div>
+        <div class="cross-in">
+          <span class="cat">Pós-venda</span>
+          <h3>eBike Suporte</h3>
+          <p>Cada bicicleta, cada chamado e todo o histórico técnico em um só lugar, do cliente ao técnico.</p>
+          <span class="go" style="color:#047857">Conhecer projeto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cross-card rv" href="../church-slides/">
+        <div class="cross-vis" style="background:linear-gradient(140deg,rgba(180,83,9,.10),rgba(180,83,9,.02))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M12 17v4"/><path d="M8 21h8"/></svg>
+        </div>
+        <div class="cross-in">
+          <span class="cat">Igrejas</span>
+          <h3>Church Slides Studio</h3>
+          <p>Slides bonitos para o culto sem transformar cada domingo num projeto de design. Roda 100% offline.</p>
+          <span class="go" style="color:#92400e">Conhecer projeto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pfoot">
+  <div class="wrap">
+    <div class="pfoot-in">
+      <div class="pfoot-brand">
+        <b>Orleans Samai</b>
+        <p>Produtos digitais para operações que cresceram além da planilha — construídos, documentados e testados.</p>
+      </div>
+      <div class="pfoot-cols">
+        <div class="pfoot-col">
+          <b>Produtos</b>
+          <a href="../frota-lite/">Frota-Lite</a>
+          <a href="../cota-flow/">Cota-Flow</a>
+          <a href="../autoatendimento/">Autoatendimento QR</a>
+          <a href="../ebike-support/">eBike Suporte</a>
+          <a href="../church-slides/">Church Slides Studio</a>
+        </div>
+        <div class="pfoot-col">
+          <b>Navegar</b>
+          <a href="../">Todos os produtos</a>
+          <a href="../../">Portfólio</a>
+          <a href="https://github.com/orleanss777-sys" target="_blank" rel="noopener">GitHub</a>
+          <a href="mailto:orleanssamai128@gmail.com">Contato</a>
+        </div>
+      </div>
+    </div>
+    <div class="pfoot-bot">
+      <span>© <span data-year>2026</span> Orleans Samai. Todos os direitos reservados.</span>
+      <span>Cota-Flow · cotações e comparação de propostas</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/js/produtos.js" defer></script>
+</body>
+</html>

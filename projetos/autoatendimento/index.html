@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Autoatendimento QR | Pedidos pelo celular do cliente</title>
+<meta name="description" content="O cliente escaneia o QR da mesa, pede pelo próprio celular e o garçom confirma em um clique. A comanda sai impressa na cozinha automaticamente. Roda na rede do restaurante, sem depender de internet.">
+<link rel="canonical" href="https://orleanss777-sys.github.io/projetos/autoatendimento/">
+<meta name="theme-color" content="#ea580c">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23ea580c'/><text y='70' x='50' font-size='50' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold'>QR</text></svg>">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Orleans Samai · Produtos">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Autoatendimento QR | Pedidos pelo celular do cliente">
+<meta property="og:description" content="Cliente pede pelo celular, garçom confirma em um clique, cozinha imprime sozinha. Funciona na rede local, mesmo sem internet.">
+<meta property="og:url" content="https://orleanss777-sys.github.io/projetos/autoatendimento/">
+<meta name="twitter:card" content="summary">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/produtos.css">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --accent:#ea580c;
+    --accent-ink:#c2410c;
+    --accent-soft:rgba(234,88,12,.10);
+    --accent-line:rgba(234,88,12,.24);
+  }
+  /* dupla celular + painel — identidade própria da página */
+  .aa-duo{display:flex;align-items:flex-end;gap:22px;justify-content:center}
+  .aa-duo .mk{flex:1;min-width:0}
+  @media(max-width:900px){.aa-duo{flex-direction:column;align-items:center;gap:26px}.aa-duo .mk{width:100%}}
+
+  .aa-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line-soft)}
+  .aa-item:last-child{border-bottom:0}
+  .aa-thumb{width:38px;height:38px;border-radius:9px;flex:none;display:grid;place-items:center;font-size:17px;
+    background:var(--accent-soft);border:1px solid var(--accent-line)}
+  .aa-item .n{flex:1;min-width:0}
+  .aa-item .n b{display:block;font-size:12.5px;color:var(--ink);font-weight:600;line-height:1.3}
+  .aa-item .n span{display:block;font-size:10.5px;color:var(--ink-4)}
+  .aa-item .pr{font-size:12.5px;font-weight:700;color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .aa-add{width:26px;height:26px;border-radius:8px;background:var(--accent);color:#fff;display:grid;place-items:center;flex:none;font-size:15px;font-weight:700;line-height:1}
+
+  .aa-cats{display:flex;gap:6px;overflow:hidden;margin:10px 0 4px}
+  .aa-cats span{font-size:10.5px;padding:4px 10px;border-radius:999px;background:var(--bg-soft);color:var(--ink-3);white-space:nowrap}
+  .aa-cats span.on{background:var(--accent);color:#fff;font-weight:600}
+
+  .aa-cart{margin-top:12px;border-radius:11px;background:#0d1117;color:#fff;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .aa-cart b{font-size:12.5px}
+  .aa-cart small{font-size:10.5px;opacity:.6;display:block}
+  .aa-cart .go{font-size:11.5px;font-weight:700;background:var(--accent);padding:5px 11px;border-radius:8px}
+
+  .aa-bell{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;color:#fff;
+    background:var(--accent);padding:3px 9px;border-radius:999px}
+  .aa-bell i{width:6px;height:6px;border-radius:50%;background:#fff;display:block;animation:aaPulse 1.1s ease-in-out infinite}
+  @keyframes aaPulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+  .aa-receipt{
+    font-family:"JetBrains Mono",monospace;font-size:10.5px;line-height:1.75;color:#2b2b2b;
+    background:repeating-linear-gradient(180deg,#fffdf7,#fffdf7 22px,#fdf9ee 22px,#fdf9ee 23px);
+    border:1px solid #ece3cf;border-radius:6px;padding:14px 16px;
+  }
+  .aa-receipt .ct{text-align:center}
+  .aa-receipt .sep{border-top:1px dashed #cfc4a8;margin:7px 0}
+  .aa-receipt .ln{display:flex;justify-content:space-between;gap:10px}
+  @media(prefers-reduced-motion:reduce){.aa-bell i{animation:none}}
+</style>
+</head>
+<body>
+
+<header class="pnav">
+  <div class="wrap pnav-in">
+    <a class="pbrand" href="../">
+      <span class="pmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/></svg></span>
+      <span class="pbrand-txt"><b>Autoatendimento QR</b><small>Pedidos por QR code para restaurantes</small></span>
+    </a>
+    <nav class="pnav-links">
+      <a href="#problema">O problema</a>
+      <a href="#como">Como funciona</a>
+      <a href="#recursos">Recursos</a>
+      <a href="#telas">Telas</a>
+      <a href="#seguranca">Confiabilidade</a>
+      <a href="#faq">Dúvidas</a>
+    </nav>
+    <div class="pnav-right">
+      <a class="pnav-back" href="../">← Produtos</a>
+      <a class="btn btn-p" href="mailto:orleanssamai128@gmail.com?subject=Demonstra%C3%A7%C3%A3o%20do%20Autoatendimento%20QR&amp;body=Ol%C3%A1%2C%20Orleans.%20Gostaria%20de%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Autoatendimento%20QR.%0A%0AEstabelecimento%3A%0AQuantidade%20de%20mesas%3A%0AMelhor%20hor%C3%A1rio%20para%20contato%3A">Solicitar demonstração</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ════════════════ HERO ════════════════ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="pill rv">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18"/><path d="M5 11V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"/><path d="M4 11v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/></svg>
+        Autoatendimento para bares, restaurantes e lanchonetes
+      </span>
+      <h1 class="rv">O cliente pede pelo celular. A cozinha imprime sozinha.</h1>
+      <p class="sub rv">
+        Fila no caixa, garçom carregando bloquinho e comanda ilegível são problemas do mesmo tipo: o pedido
+        passa por gente demais até chegar na chapa. Aqui ele vai <strong>do celular do cliente direto
+        para a fila do garçom</strong> — e, com um clique de confirmação, para a impressora da cozinha.
+      </p>
+      <div class="btn-row rv">
+        <a class="btn btn-p btn-lg" href="mailto:orleanssamai128@gmail.com?subject=Demonstra%C3%A7%C3%A3o%20do%20Autoatendimento%20QR&amp;body=Ol%C3%A1%2C%20Orleans.%20Gostaria%20de%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Autoatendimento%20QR.%0A%0AEstabelecimento%3A%0AQuantidade%20de%20mesas%3A%0AMelhor%20hor%C3%A1rio%20para%20contato%3A">
+          Solicitar demonstração
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-s btn-lg" href="#como">Ver como funciona</a>
+      </div>
+      <p class="hero-note rv">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ok)"><path d="M20 6 9 17l-5-5"/></svg>
+        <b>Funciona sem internet.</b> Roda na rede do próprio salão — se a operadora cair, o salão continua vendendo.
+      </p>
+    </div>
+
+    <div class="rv-mk">
+      <div class="aa-duo">
+        <!-- celular do cliente -->
+        <div class="phone">
+          <div class="phone-scr">
+            <span class="phone-notch"></span>
+            <div class="phone-top">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                <div>
+                  <div style="font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.02em">Mesa 07</div>
+                  <div style="font-size:10.5px;color:var(--ink-4)">Comanda de <b style="color:var(--accent-ink)">Marina</b></div>
+                </div>
+                <span class="st st-acc">Aberta</span>
+              </div>
+              <div class="aa-cats">
+                <span class="on">Lanches</span><span>Porções</span><span>Bebidas</span><span>Sobremesas</span>
+              </div>
+            </div>
+            <div class="phone-body">
+              <div class="aa-item">
+                <span class="aa-thumb">🍔</span>
+                <span class="n"><b>Burger da casa</b><span>180 g, cheddar e bacon</span></span>
+                <span class="pr">R$ 32,00</span>
+                <span class="aa-add">+</span>
+              </div>
+              <div class="aa-item">
+                <span class="aa-thumb">🍟</span>
+                <span class="n"><b>Batata rústica</b><span>porção para 2</span></span>
+                <span class="pr">R$ 24,00</span>
+                <span class="aa-add">+</span>
+              </div>
+              <div class="aa-item">
+                <span class="aa-thumb">🥤</span>
+                <span class="n"><b>Limonada suíça</b><span>500 ml</span></span>
+                <span class="pr">R$ 12,00</span>
+                <span class="aa-add">+</span>
+              </div>
+              <div class="aa-cart">
+                <span><b>3 itens · R$ 68,00</b><small>comanda de Marina</small></span>
+                <span class="go">Pedir</span>
+              </div>
+              <div style="text-align:center;margin-top:10px;font-size:10.5px;color:var(--ink-4)">
+                🔔 Chamar garçom &nbsp;·&nbsp; 👥 Adicionar pessoa
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- painel do garçom -->
+        <div class="mk mk-float" style="max-width:330px">
+          <div class="mk-bar">
+            <span class="mk-dots"><i></i><i></i><i></i></span>
+            <span class="mk-url mono">Painel do garçom</span>
+          </div>
+          <div class="mk-body" style="padding:14px">
+            <div class="mk-h" style="margin-bottom:10px">
+              <b>Fila de pedidos</b>
+              <span class="aa-bell"><i></i> 1 novo</span>
+            </div>
+            <div class="mk-row hot" style="border-color:var(--accent-line);background:linear-gradient(90deg,rgba(234,88,12,.06),#fff 46%)">
+              <span class="ic" style="background:var(--accent-soft);color:var(--accent-ink)"><b style="font-size:12px">07</b></span>
+              <span class="tx"><b>Marina · 3 itens</b><span>agora mesmo</span></span>
+              <span class="rt"><b>R$ 68,00</b><span class="st st-acc">Confirmar</span></span>
+            </div>
+            <div class="mk-row">
+              <span class="ic"><b style="font-size:12px">03</b></span>
+              <span class="tx"><b>Rafael · 2 itens</b><span>há 4 min</span></span>
+              <span class="rt"><b>R$ 41,00</b><span class="st st-warn">Preparando</span></span>
+            </div>
+            <div class="mk-row">
+              <span class="ic"><b style="font-size:12px">11</b></span>
+              <span class="tx"><b>Júlia · 1 item</b><span>há 9 min</span></span>
+              <span class="rt"><b>R$ 18,00</b><span class="st st-ok">Pronto</span></span>
+            </div>
+            <div class="mk-row" style="margin-bottom:0">
+              <span class="ic"><b style="font-size:12px">05</b></span>
+              <span class="tx"><b>Mesa chamando</b><span>há 40 s</span></span>
+              <span class="rt"><span class="st st-bad">🔔 Atender</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PROBLEMA ════════════════ -->
+<section class="sec sec-soft" id="problema">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> O problema</span>
+      <h2>O gargalo do salão nunca é a cozinha</h2>
+      <p>É o caminho que o pedido percorre até chegar lá.</p>
+    </div>
+
+    <div class="prob-grid">
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Cliente esperando para pedir</h3>
+        <p>Na hora do pico, a mesa fica dez minutos com o cardápio na mão só esperando alguém aparecer. É venda que atrasa e cliente que impacienta.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Comanda escrita à mão</h3>
+        <p>Letra corrida, abreviação que só o garçom entende, papel que some. A cozinha faz o prato errado e a conta sai errada.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>“De quem era esse prato?”</h3>
+        <p>Mesa de seis pessoas, uma comanda só. Na hora de fechar, ninguém lembra quem pediu o quê — e alguém sempre paga a mais.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Garçom virou entregador de papel</h3>
+        <p>Boa parte do turno é levar comanda até a cozinha, em vez de atender mesa, sugerir prato e vender sobremesa.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Cardápio impresso desatualizado</h3>
+        <p>Mudou o preço ou acabou o item? Ou reimprime tudo, ou o garçom avisa mesa por mesa — e sempre esquece uma.</p>
+      </div>
+      <div class="prob rv">
+        <div class="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+        <h3>Sistema que morre com a internet</h3>
+        <p>Muita solução de autoatendimento é na nuvem. Operadora oscilou no sábado à noite, o salão inteiro para.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ SOLUÇÃO ════════════════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <span class="eyebrow"><i></i> A solução</span>
+      <h2>Um caminho curto entre a mesa e a chapa</h2>
+      <p>O cliente pede direto. O garçom confirma. A cozinha recebe impresso. Ninguém transcreve nada.</p>
+    </div>
+
+    <div class="ba">
+      <div class="ba-col before rv">
+        <span class="ba-tag">Antes</span>
+        <h3>Papel, memória e corrida</h3>
+        <ul class="ba-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Cliente espera o garçom para pedir</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Comanda escrita à mão e levada a pé</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Uma conta só para a mesa inteira</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Cardápio impresso, preço desatualizado</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Depende de internet estável</li>
+        </ul>
+      </div>
+
+      <div class="ba-arrow rv">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+
+      <div class="ba-col after rv">
+        <span class="ba-tag">Com o Autoatendimento QR</span>
+        <h3>Direto, nominal e impresso</h3>
+        <ul class="ba-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pedido em até três toques, no celular do cliente</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Cupom impresso na cozinha, sempre legível</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Comanda por pessoa, na mesma mesa</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Cardápio alterado no admin, valendo na hora</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Roda na rede local, sem depender da operadora</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ COMO FUNCIONA ════════════════ -->
+<section class="sec sec-tint" id="como">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Como funciona</span>
+      <h2>Do QR na mesa ao cupom na cozinha</h2>
+      <p>Quatro passos, e o único trabalho manual é o clique de confirmação do garçom.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step rv">
+        <div class="n">01</div>
+        <h3>Cliente escaneia o QR</h3>
+        <p>Cada mesa tem seu próprio código. Ele abre o cardápio no navegador do celular — sem baixar aplicativo nenhum.</p>
+      </div>
+      <div class="step rv">
+        <div class="n">02</div>
+        <h3>Informa o nome e pede</h3>
+        <p>A comanda passa a ser dele. Busca por categoria, foto do prato, carrinho e pedido em até três toques.</p>
+      </div>
+      <div class="step rv">
+        <div class="n">03</div>
+        <h3>Garçom confirma</h3>
+        <p>O pedido cai na fila em tempo real e toca o sino até alguém atender. Um clique gera o número e libera para a cozinha.</p>
+      </div>
+      <div class="step rv">
+        <div class="n">04</div>
+        <h3>Cozinha recebe impresso</h3>
+        <p>O cupom sai na impressora térmica com o item, a mesa e o nome de quem pediu. Se a impressora falhar, o sistema tenta de novo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ RECURSOS ════════════════ -->
+<section class="sec" id="recursos">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Recursos</span>
+      <h2>O que está pronto e funcionando</h2>
+      <p>Três aplicativos que conversam entre si: o do cliente, o do garçom e o da administração.</p>
+    </div>
+
+    <div class="feat-grid">
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
+        <h3>Comanda por pessoa</h3>
+        <p>Cada um da mesa informa o nome e tem a própria comanda. Dá para adicionar alguém que chegou depois, na mesma mesa aberta.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a2 2 0 0 0 3.4 0"/></svg></div>
+        <h3>Fila com sino</h3>
+        <p>Pedido novo aparece na hora no painel do garçom e o alerta sonoro repete até alguém atender. Nenhum pedido fica esquecido na tela.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg></div>
+        <h3>Impressão automática na cozinha</h3>
+        <p>Cupom ESC/POS enviado direto para a impressora térmica pela rede. A fila tem nova tentativa em caso de falha e proteção contra impressão duplicada.</p>
+        <div class="mini mono">Modo teste imprime no terminal — dá para operar antes de comprar a impressora.</div>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg></div>
+        <h3>Fluxo de preparo</h3>
+        <p>Confirmado → pronto → entregue. O garçom sabe o que já pode levar para a mesa sem precisar perguntar na cozinha.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+        <h3>Fechamento com recibo</h3>
+        <p>Fechar a conta registrando a forma de pagamento — dinheiro, cartão ou Pix — e imprimir o recibo do cliente.</p>
+      </div>
+      <div class="feat rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
+        <h3>Backoffice do dono</h3>
+        <p>Painel com indicadores e gráfico, cardápio com criar, editar e remover item e categoria, controle de preço e visibilidade, e os QR codes das mesas.</p>
+      </div>
+    </div>
+
+    <div class="notfor rv" style="margin-top:34px;max-width:74ch">
+      <b>Onde termina o escopo atual</b>
+      <p>As fotos dos pratos são informadas por endereço de imagem — o envio direto do arquivo ainda não está pronto.
+      O sistema atende <b>uma loja por instalação</b> e trabalha com um perfil de garçom compartilhado pela equipe.
+      Também não emite nota fiscal nem integra com maquininha: ele registra a forma de pagamento, quem processa é você.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ DEMONSTRAÇÃO VISUAL ════════════════ -->
+<section class="sec sec-soft" id="telas">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Por dentro do sistema</span>
+      <h2>As três telas da operação</h2>
+      <p>Uma para quem come, uma para quem atende e uma para quem administra.</p>
+    </div>
+
+    <!-- show 1 -->
+    <div class="show">
+      <div class="show-txt rv">
+        <h3>O cupom que sai na cozinha</h3>
+        <p>Impresso, legível e com tudo que a chapa precisa saber — sem depender de decifrar letra de ninguém.</p>
+        <ul class="show-pts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Número do pedido, <b>mesa e nome de quem pediu</b> no topo.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>O texto enviado à impressora é <b>higienizado</b> — nada que o cliente digite quebra o equipamento.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Falhou a impressão? A fila <b>tenta de novo</b>, sem gerar dois cupons do mesmo pedido.</span></li>
+        </ul>
+      </div>
+      <div class="show-vis rv-mk">
+        <div class="mk">
+          <div class="mk-bar"><span class="mk-dots"><i></i><i></i><i></i></span><span class="mk-url mono">Impressora da cozinha · ESC/POS</span></div>
+          <div class="mk-body" style="background:#faf7f0">
+            <div class="aa-receipt">
+              <div class="ct"><b>*** COZINHA ***</b></div>
+              <div class="ct">Pedido #128</div>
+              <div class="sep"></div>
+              <div class="ln"><span>MESA</span><span><b>07</b></span></div>
+              <div class="ln"><span>COMANDA</span><span><b>MARINA</b></span></div>
+              <div class="ln"><span>HORA</span><span>20:41</span></div>
+              <div class="sep"></div>
+              <div class="ln"><span>1x BURGER DA CASA</span><span>32,00</span></div>
+              <div class="ln"><span>1x BATATA RUSTICA</span><span>24,00</span></div>
+              <div class="ln"><span>1x LIMONADA SUICA</span><span>12,00</span></div>
+              <div class="sep"></div>
+              <div class="ln"><b>TOTAL</b><b>68,00</b></div>
+              <div class="sep"></div>
+              <div class="ct">-- confirmado pelo garcom --</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- show 2 -->
+    <div class="show flip">
+      <div class="show-txt rv">
+        <h3>Backoffice do dono</h3>
+        <p>Onde o cardápio vive. Alterou o preço aqui, a próxima mesa que abrir o QR já vê o valor novo.</p>
+        <ul class="show-pts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Criar, editar e remover <b>itens e categorias</b>, com preço e visibilidade.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Acabou o item? <b>Some do cardápio</b> sem precisar excluir o cadastro.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Os <b>QR codes das mesas</b> ficam prontos para imprimir e plastificar.</span></li>
+        </ul>
+      </div>
+      <div class="show-vis rv-mk">
+        <div class="mk">
+          <div class="mk-bar"><span class="mk-dots"><i></i><i></i><i></i></span><span class="mk-url mono">Administração · Cardápio</span></div>
+          <div class="mk-body">
+            <div class="mk-kpis" style="grid-template-columns:repeat(4,1fr)">
+              <div class="mk-kpi"><b>38</b><span>PEDIDOS HOJE</span></div>
+              <div class="mk-kpi"><b>R$ 1.842</b><span>FATURAMENTO</span></div>
+              <div class="mk-kpi"><b>12</b><span>MESAS ATIVAS</span></div>
+              <div class="mk-kpi ok"><b>R$ 48</b><span>TICKET MÉDIO</span></div>
+            </div>
+            <div class="mk-h" style="margin-top:16px"><b>Itens do cardápio</b><small class="mono">categoria: Lanches</small></div>
+            <div class="mk-row">
+              <span class="ic" style="background:var(--accent-soft)">🍔</span>
+              <span class="tx"><b>Burger da casa</b><span>180 g, cheddar e bacon</span></span>
+              <span class="rt"><b>R$ 32,00</b><span class="st st-ok">Visível</span></span>
+            </div>
+            <div class="mk-row">
+              <span class="ic" style="background:var(--accent-soft)">🥓</span>
+              <span class="tx"><b>Burger duplo bacon</b><span>2 carnes, molho da casa</span></span>
+              <span class="rt"><b>R$ 41,00</b><span class="st st-ok">Visível</span></span>
+            </div>
+            <div class="mk-row" style="margin-bottom:0;opacity:.62">
+              <span class="ic">🐟</span>
+              <span class="tx"><b>Sanduíche de peixe</b><span>fora de estoque hoje</span></span>
+              <span class="rt"><b>R$ 36,00</b><span class="st st-neutral">Oculto</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- show 3 -->
+    <div class="show" style="margin-bottom:0">
+      <div class="show-txt rv">
+        <h3>Fechamento da conta</h3>
+        <p>Na hora de pagar, cada comanda da mesa já está separada por nome — sem ninguém tentar lembrar quem pediu o quê.</p>
+        <ul class="show-pts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Extrato por pessoa e total da mesa, calculados pelo sistema.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Forma de pagamento registrada: <b>dinheiro, cartão ou Pix</b>.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>O cliente só enxerga o extrato da <b>própria mesa</b> — o link de uma mesa não abre a de outra.</span></li>
+        </ul>
+      </div>
+      <div class="show-vis rv-mk">
+        <div class="mk">
+          <div class="mk-bar"><span class="mk-dots"><i></i><i></i><i></i></span><span class="mk-url mono">Garçom · Fechar conta — Mesa 07</span></div>
+          <div class="mk-body">
+            <div class="mk-row">
+              <span class="ic" style="background:var(--accent-soft);color:var(--accent-ink)"><b style="font-size:11px">M</b></span>
+              <span class="tx"><b>Marina</b><span>burger, batata, limonada</span></span>
+              <span class="rt"><b>R$ 68,00</b></span>
+            </div>
+            <div class="mk-row">
+              <span class="ic" style="background:var(--accent-soft);color:var(--accent-ink)"><b style="font-size:11px">P</b></span>
+              <span class="tx"><b>Pedro</b><span>burger duplo, cerveja</span></span>
+              <span class="rt"><b>R$ 53,00</b></span>
+            </div>
+            <div class="mk-row" style="border-color:var(--accent-line);background:var(--accent-soft)">
+              <span class="tx"><b style="font-size:14px">Total da mesa</b><span>2 comandas · 6 itens</span></span>
+              <span class="rt"><b style="font-size:16px">R$ 121,00</b></span>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+              <span class="st st-neutral" style="padding:6px 14px;font-size:11.5px">💵 Dinheiro</span>
+              <span class="st st-neutral" style="padding:6px 14px;font-size:11.5px">💳 Cartão</span>
+              <span class="st st-acc" style="padding:6px 14px;font-size:11.5px">⚡ Pix</span>
+              <span style="flex:1"></span>
+              <span class="st st-ok" style="padding:6px 14px;font-size:11.5px">Fechar e imprimir recibo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ BENEFÍCIOS ════════════════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Resultado</span>
+      <h2>O que muda no salão</h2>
+      <p>O ganho não é “ter cardápio digital”. É devolver o garçom para o atendimento e tirar o papel do caminho.</p>
+    </div>
+
+    <div class="ben-grid">
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/></svg></div>
+        <h3>Pedido sem espera</h3>
+        <p>A mesa pede assim que decide, mesmo no pico. O tempo entre sentar e a cozinha começar encurta.</p>
+      </div>
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>Menos prato errado</h3>
+        <p>O que o cliente tocou na tela é exatamente o que sai impresso. Some a etapa em que o erro nasce.</p>
+      </div>
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+        <h3>Fechamento sem discussão</h3>
+        <p>Comanda nominal desde o primeiro pedido. Mesa grande fecha rápido, cada um pagando o que consumiu.</p>
+      </div>
+      <div class="ben rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 2v10l7 3"/></svg></div>
+        <h3>Operação que não para</h3>
+        <p>Como roda na rede do próprio salão, oscilação da operadora não interrompe as vendas do sábado à noite.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PARA QUEM É ════════════════ -->
+<section class="sec sec-tint">
+  <div class="wrap aud-wrap">
+    <div class="rv">
+      <span class="eyebrow"><i></i> Para quem é</span>
+      <h2>Feito para o salão que enche e não tem sistema caro</h2>
+      <p style="color:var(--ink-3);font-size:17px;margin-top:14px">
+        O ponto ideal é o estabelecimento com <strong style="color:var(--ink-2)">mesas próprias e movimento
+        concentrado em horários de pico</strong>, onde falta garçom exatamente quando mais chega gente.
+      </p>
+      <div class="notfor">
+        <b>Provavelmente não é para você se…</b>
+        <p>sua operação precisa de emissão fiscal integrada, controle de estoque por insumo, delivery com
+        despacho ou rede com várias unidades num painel só. Este produto resolve o pedido na mesa — bem e barato.</p>
+      </div>
+    </div>
+
+    <div class="aud-grid">
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18"/><path d="M5 11V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"/><path d="M4 11v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/></svg></span><b>Restaurantes<span>com atendimento à mesa</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 11V3H7v8"/><path d="M5 11h14l-1 10H6L5 11Z"/></svg></span><b>Bares e cervejarias<span>onde a mesa pede várias vezes na noite</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-7h6v7"/></svg></span><b>Lanchonetes<span>e hamburguerias de bairro</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></svg></span><b>Cafeterias<span>com consumo no local</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/></svg></span><b>Food parks<span>e praças de alimentação</span></b></div>
+      <div class="aud rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18"/><rect x="3" y="4" width="18" height="18" rx="2"/></svg></span><b>Eventos e festivais<span>com mesas numeradas temporárias</span></b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ MÉTRICAS ════════════════ -->
+<section class="sec sec-sm">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <span class="eyebrow" style="justify-content:center"><i></i> O que dá para medir</span>
+      <h2>Ganhos visíveis já no primeiro sábado</h2>
+      <p>Sem número de cliente inventado: estes são os efeitos diretos de tirar o papel do caminho.</p>
+    </div>
+    <div class="mets">
+      <div class="met rv"><b><span data-count="3">3</span></b><span class="lbl">toques até pedir</span><p>Do cardápio ao pedido enviado, no celular que o cliente já tem na mão.</p></div>
+      <div class="met rv"><b>0</b><span class="lbl">aplicativos para baixar</span><p>O QR abre direto no navegador — nada de loja de aplicativos.</p></div>
+      <div class="met rv"><b>0</b><span class="lbl">comandas transcritas</span><p>O que foi tocado na tela é o que sai impresso na cozinha.</p></div>
+      <div class="met rv"><b>✓</b><span class="lbl">opera sem internet</span><p>A rede local do salão basta. Queda da operadora não para a venda.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CONFIABILIDADE ════════════════ -->
+<section class="sec sec-dark" id="seguranca">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow"><i></i> Confiabilidade</span>
+      <h2>Feito para aguentar sábado à noite</h2>
+      <p>Um sistema de salão só é bom se continuar de pé exatamente quando o movimento aperta.</p>
+    </div>
+
+    <div class="secu-grid">
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14 0"/><path d="M8.5 16.4a6 6 0 0 1 7 0"/><path d="M12 20h.01"/><path d="m2 2 20 20"/></svg></div>
+        <h3>Roda sem internet</h3>
+        <p>Fontes e bibliotecas são servidas pelo próprio sistema, sem depender de serviço externo. Basta a rede local do salão funcionar.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg></div>
+        <h3>Impressão que não desiste</h3>
+        <p>Os cupons entram numa fila com nova tentativa automática. Impressora sem papel ou fora do ar não faz o pedido sumir — e não gera cupom duplicado.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3>Cada mesa no seu quadrado</h3>
+        <p>O QR de cada mesa carrega um código assinado. O extrato consultado precisa pertencer àquela mesa — um cliente não abre a conta da mesa ao lado.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></div>
+        <h3>Acesso por papel</h3>
+        <p>Garçom e administração entram com senha própria, guardada com algoritmo lento e sal individual. O servidor confere o papel a cada operação.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.4 9.4 8 10 4.6-.6 8-5 8-10V6l-8-4Z"/></svg></div>
+        <h3>Proteção contra abuso</h3>
+        <p>Tentativas de login e volume de pedidos por mesa são limitados por minuto. Ninguém trava o salão com um script de brincadeira.</p>
+      </div>
+      <div class="secu rv">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></div>
+        <h3>Instalação de dois cliques</h3>
+        <p>Instalador do Windows com atalho, ícone, liberação da porta no firewall e desinstalador. O banco de dados fica no computador da loja e sobrevive às atualizações.</p>
+      </div>
+    </div>
+
+    <p class="secu-note rv">
+      <b style="color:#c7ccd8">Recomendação de instalação:</b> manter o servidor <b>fora da internet</b> (sem redirecionamento de porta),
+      usar uma rede separada para os clientes e trocar as senhas padrão no primeiro acesso. O sistema foi desenhado para viver
+      dentro do salão, não exposto na web.
+    </p>
+
+    <div class="stack-row rv" style="margin-top:30px">
+      <span class="tech">Python · FastAPI</span><span class="tech">SQLite</span><span class="tech">Socket.IO</span>
+      <span class="tech">PWA</span><span class="tech">Impressão ESC/POS</span><span class="tech">Instalador Windows</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FAQ ════════════════ -->
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <span class="eyebrow" style="justify-content:center"><i></i> Dúvidas frequentes</span>
+      <h2>O que costumam perguntar</h2>
+    </div>
+
+    <div class="faq rv">
+      <details>
+        <summary>O cliente precisa baixar um aplicativo?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Não. Ele aponta a câmera para o QR da mesa e o cardápio abre no navegador do próprio celular. <b>Sem loja de aplicativos, sem cadastro e sem senha</b> — ele só informa o nome para abrir a comanda.</div>
+      </details>
+      <details>
+        <summary>E se a internet do restaurante cair?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">O sistema continua funcionando. Ele roda <b>no computador do próprio salão</b>, e os celulares se conectam pela rede local — nada precisa sair para a internet. Se a operadora oscilar no meio do sábado, o salão segue vendendo normalmente.</div>
+      </details>
+      <details>
+        <summary>Preciso de impressora térmica para começar?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Não para testar. O sistema tem um modo em que o cupom aparece na tela em vez de sair impresso — dá para rodar a operação inteira e avaliar antes de investir. Quando a impressora chegar, é só apontar o endereço dela na rede: o sistema fala <b>ESC/POS</b>, o padrão das térmicas de cupom.</div>
+      </details>
+      <details>
+        <summary>O garçom perde o controle do salão?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Ao contrário — nada vai para a cozinha sem ele. Todo pedido passa pela <b>fila de confirmação</b>, e é o clique do garçom que gera o número e libera a impressão. Ele pode recusar um pedido, acompanhar o preparo e continua sendo quem fecha a conta. O que sai da rotina dele é carregar papel.</div>
+      </details>
+      <details>
+        <summary>Como funciona numa mesa com várias pessoas?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Cada pessoa informa o nome e ganha a <b>própria comanda dentro da mesma mesa</b>. Quem chegar depois entra na mesa já aberta. Na hora de fechar, o extrato vem separado por pessoa e com o total da mesa — acaba a conversa de “quem pediu a segunda cerveja”.</div>
+      </details>
+      <details>
+        <summary>Como é a instalação no restaurante?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Existe um instalador de Windows que cria o atalho, o ícone e a liberação da porta no firewall. Você executa, ele abre, e o próprio sistema mostra o endereço da rede local que os celulares vão usar. Depois é <b>cadastrar o cardápio e imprimir os QR codes das mesas</b> — que já saem prontos no painel.</div>
+      </details>
+      <details>
+        <summary>O sistema emite nota fiscal?<span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <div class="ans">Não. Ele registra a forma de pagamento e imprime o <b>recibo do cliente</b>, mas emissão fiscal e integração com maquininha estão fora do escopo. É um sistema de pedido e comanda, não um ponto de venda fiscal — e prefiro dizer isso antes da implantação, não depois.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CTA FINAL ════════════════ -->
+<section class="sec sec-sm">
+  <div class="wrap">
+    <div class="cta rv">
+      <h2>Pronto para tirar o bloquinho do salão?</h2>
+      <p>Marque uma demonstração de 20 minutos: mostro o fluxo inteiro, do QR da mesa até o cupom saindo na cozinha.</p>
+      <div class="btn-row">
+        <a class="btn btn-w btn-lg" href="mailto:orleanssamai128@gmail.com?subject=Demonstra%C3%A7%C3%A3o%20do%20Autoatendimento%20QR&amp;body=Ol%C3%A1%2C%20Orleans.%20Gostaria%20de%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Autoatendimento%20QR.%0A%0AEstabelecimento%3A%0AQuantidade%20de%20mesas%3A%0AMelhor%20hor%C3%A1rio%20para%20contato%3A">
+          Solicitar demonstração
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-o btn-lg" href="mailto:orleanssamai128@gmail.com?subject=Falar%20sobre%20o%20Autoatendimento%20QR">Falar sobre o projeto</a>
+      </div>
+      <p class="cta-fine">Resposta em até um dia útil · Sem compromisso</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ OUTROS PRODUTOS ════════════════ -->
+<section class="sec sec-sm sec-soft">
+  <div class="wrap">
+    <div class="sec-head rv" style="margin-bottom:34px">
+      <span class="eyebrow"><i></i> Vitrine</span>
+      <h2 style="font-size:clamp(23px,2.8vw,32px)">Conheça outras soluções</h2>
+    </div>
+    <div class="cross">
+      <a class="cross-card rv" href="../ebike-support/">
+        <div class="cross-vis" style="background:linear-gradient(140deg,rgba(5,150,105,.10),rgba(5,150,105,.02))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
+        </div>
+        <div class="cross-in">
+          <span class="cat">Pós-venda</span>
+          <h3>eBike Suporte</h3>
+          <p>Cada bicicleta, cada chamado e todo o histórico técnico em um só lugar, do cliente ao técnico.</p>
+          <span class="go" style="color:#047857">Conhecer projeto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cross-card rv" href="../cota-flow/">
+        <div class="cross-vis" style="background:linear-gradient(140deg,rgba(124,58,237,.10),rgba(124,58,237,.02))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
+        </div>
+        <div class="cross-in">
+          <span class="cat">Compras</span>
+          <h3>Cota-Flow</h3>
+          <p>Cotações organizadas do pedido à decisão. O fornecedor responde por um link, sem criar conta.</p>
+          <span class="go" style="color:#6d28d9">Conhecer projeto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cross-card rv" href="../church-slides/">
+        <div class="cross-vis" style="background:linear-gradient(140deg,rgba(180,83,9,.10),rgba(180,83,9,.02))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M12 17v4"/><path d="M8 21h8"/></svg>
+        </div>
+        <div class="cross-in">
+          <span class="cat">Igrejas</span>
+          <h3>Church Slides Studio</h3>
+          <p>Slides bonitos para o culto sem transformar cada domingo num projeto de design. Roda 100% offline.</p>
+          <span class="go" style="color:#92400e">Conhecer projeto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pfoot">
+  <div class="wrap">
+    <div class="pfoot-in">
+      <div class="pfoot-brand">
+        <b>Orleans Samai</b>
+        <p>Produtos digitais para operações que cresceram além da planilha — construídos, documentados e testados.</p>
+      </div>
+      <div class="pfoot-cols">
+        <div class="pfoot-col">
+          <b>Produtos</b>
+          <a href="../frota-lite/">Frota-Lite</a>
+          <a href="../cota-flow/">Cota-Flow</a>
+          <a href="../autoatendimento/">Autoatendimento QR</a>
+          <a href="../ebike-support/">eBike Suporte</a>
+          <a href="../church-slides/">Church Slides Studio</a>
+        </div>
+        <div class="pfoot-col">
+          <b>Navegar</b>
+          <a href="../">Todos os produtos</a>
+          <a href="../../">Portfólio</a>
+          <a href="https://github.com/orleanss777-sys" target="_blank" rel="noopener">GitHub</a>
+          <a href="mailto:orleanssamai128@gmail.com">Contato</a>
+        </div>
+      </div>
+    </div>
+    <div class="pfoot-bot">
+      <span>© <span data-year>2026</span> Orleans Samai. Todos os direitos reservados.</span>
+      <span>Autoatendimento QR · pedidos por QR code</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/js/produtos.js" defer></script>
+</body>
+</html>

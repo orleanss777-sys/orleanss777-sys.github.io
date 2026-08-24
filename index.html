@@ -7,6 +7,7 @@
 <meta name="description" content="Portfólio de Orleans Samai — Analista de Suporte Técnico N2 em transição para Cloud Network Engineering. Projetos em Python, TypeScript, C#, redes e automação.">
 <meta name="author" content="Orleans Samai">
 <meta name="theme-color" content="#0d1117">
+<link rel="canonical" href="https://orleanss777-sys.github.io/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d1117'/><text y='68' x='50' font-size='50' text-anchor='middle' fill='%23e0864f' font-family='monospace'>&gt;_</text></svg>">
 
 <meta property="og:type" content="website">
@@ -298,6 +299,24 @@ footer{border-top:1px solid var(--border);padding:30px 0 44px;margin-top:20px}
 .foot-links a{color:var(--muted);text-decoration:none;font-size:13px}
 .foot-links a:hover{color:var(--orange)}
 
+
+/* ---------- vitrine de produtos ---------- */
+.vitrine{
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:space-between;
+  border:1px solid rgba(224,134,79,.3);border-radius:16px;padding:22px 24px;margin-bottom:8px;
+  background:linear-gradient(120deg,rgba(224,134,79,.10),rgba(167,139,250,.07) 70%,transparent);
+  text-decoration:none;transition:border-color .22s,transform .22s ease;
+}
+.vitrine:hover{border-color:rgba(224,134,79,.55);transform:translateY(-2px)}
+.vitrine .vt-txt{min-width:0;flex:1}
+.vitrine b{display:block;font-size:16.5px;color:var(--text);letter-spacing:-.02em}
+.vitrine p{margin:6px 0 0;font-size:14.5px;color:var(--muted);max-width:62ch}
+.badge.prod{color:var(--purple);background:rgba(167,139,250,.11);border:1px solid rgba(167,139,250,.28)}
+.sub-head{display:flex;align-items:baseline;gap:12px;margin:44px 0 18px;flex-wrap:wrap}
+.sub-head h3{font-size:15px;margin:0;font-weight:700;letter-spacing:-.015em;color:var(--text)}
+.sub-head span{font-size:13px;color:var(--dim)}
+.sub-head::after{content:"";flex:1;height:1px;background:var(--border);min-width:20px}
+
 /* reveal */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.2,.7,.3,1),transform .6s cubic-bezier(.2,.7,.3,1)}
 .rv.in{opacity:1;transform:none}
@@ -320,6 +339,7 @@ footer{border-top:1px solid var(--border);padding:30px 0 44px;margin-top:20px}
       <a href="#sobre">Sobre</a>
       <a href="#stack">Stack</a>
       <a href="#projetos">Projetos</a>
+      <a href="projetos/">Produtos</a>
       <a href="#estudos">Estudos</a>
       <a href="#contato">Contato</a>
     </nav>
@@ -501,6 +521,82 @@ footer{border-top:1px solid var(--border);padding:30px 0 44px;margin-top:20px}
     <h2 class="title rv">Seleção do que eu construí</h2>
     <p class="lede rv">Sistemas completos — não exercícios. Cada um resolve um problema real de suporte, infraestrutura ou operação.</p>
 
+    <a class="vitrine rv" href="projetos/">
+      <span class="vt-txt">
+        <b>Vitrine de produtos &rarr;</b>
+        <p>Cinco deles viraram produto, com página própria mostrando o problema que resolvem, as telas por dentro e os limites do escopo.</p>
+      </span>
+      <span class="btn btn-primary" style="flex:none">Conhecer os produtos</span>
+    </a>
+
+    <div class="sub-head rv"><h3>Produtos</h3><span>com página comercial</span></div>
+
+    <div class="proj-grid">
+
+      <a class="proj rv" href="projetos/frota-lite/">
+        <div class="proj-top">
+          <h3><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9 11V3H1v8h1a2 2 0 1 0 4 0h3Zm1-6h3l3 4v3h-1a2 2 0 1 0-4 0h-1V5Z"/></svg> Frota-Lite</h3>
+          <span class="badge prod">Produto</span>
+        </div>
+        <p>Controle de manutenção para frotas de <b>3 a 30 veículos</b>. Planos por quilometragem e por tempo, alerta antes de vencer e reprogramação automática da próxima revisão.</p>
+        <div class="tags"><span class="tag">Next.js 16</span><span class="tag">TypeScript</span><span class="tag">PostgreSQL + RLS</span><span class="tag">242 testes</span></div>
+        <div class="proj-foot">Ver página do produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></div>
+      </a>
+
+      <a class="proj rv" href="projetos/cota-flow/">
+        <div class="proj-top">
+          <h3><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.5 1a.5.5 0 0 1 .5.5V13h13a.5.5 0 0 1 0 1H1.5a.5.5 0 0 1-.5-.5v-12A.5.5 0 0 1 1.5 1Zm3 8h2v3h-2V9Zm3.5-3h2v6H8V6Zm3.5-3h2v9h-2V3Z"/></svg> Cota-Flow</h3>
+          <span class="badge prod">Produto</span>
+        </div>
+        <p>Cotações de compra do pedido à decisão. Cada fornecedor responde por um <b>link individual, sem criar conta</b>, e as propostas aparecem lado a lado com os itens faltantes sinalizados.</p>
+        <div class="tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">PostgreSQL</span><span class="tag">Drizzle ORM</span></div>
+        <div class="proj-foot">Ver página do produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></div>
+      </a>
+
+      <a class="proj rv" href="projetos/autoatendimento/">
+        <div class="proj-top">
+          <h3><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 1h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2Zm2 3v2h2V4H5Zm4 0v2h2V4H9ZM5 8v2h2V8H5Zm4 0v2h2V8H9Z"/></svg> Autoatendimento QR</h3>
+          <span class="badge prod">Produto</span>
+        </div>
+        <p>O cliente pede pelo celular, o garçom confirma em um clique e a cozinha imprime sozinha em <b>ESC/POS</b>. Comanda por pessoa e operação que funciona <b>sem internet</b>.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Socket.IO</span><span class="tag">PWA</span><span class="tag">Instalador Windows</span></div>
+        <div class="proj-foot">Ver página do produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></div>
+      </a>
+
+      <a class="proj rv" href="projetos/ebike-support/">
+        <div class="proj-top">
+          <h3><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="3.6" cy="11.6" r="3.1"/><circle cx="12.4" cy="11.6" r="3.1"/><path d="M8 11.6V9L6 7l2.6-2 1.4 2h1.6"/><circle cx="11" cy="3" r=".9"/></svg> eBike Suporte</h3>
+          <span class="badge prod">Produto</span>
+        </div>
+        <p>Pós-venda para lojas de bicicletas elétricas: ficha técnica por bicicleta, chamados com dono e status, fotos e nota fiscal anexadas — com <b>isolamento por cliente garantido no banco</b>.</p>
+        <div class="tags"><span class="tag">Next.js 16</span><span class="tag">TypeScript</span><span class="tag">PostgreSQL 17 + RLS</span><span class="tag">Vitest</span></div>
+        <div class="proj-foot">Ver página do produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></div>
+      </a>
+
+      <a class="proj rv" href="projetos/church-slides/">
+        <div class="proj-top">
+          <h3><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.75 1h12.5A1.75 1.75 0 0 1 16 2.75v8.5A1.75 1.75 0 0 1 14.25 13H9v1.5h2.25a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5H7V13H1.75A1.75 1.75 0 0 1 0 11.25v-8.5A1.75 1.75 0 0 1 1.75 1Z"/></svg> Church Slides Studio</h3>
+          <span class="badge prod">Produto</span>
+        </div>
+        <p>Editor de apresentações para igrejas, <b>100% offline</b> e instalável: 21 modelos de culto, 10 temas, biblioteca de versículos, modo apresentação e exportação em PDF, PNG e PPTX.</p>
+        <div class="tags"><span class="tag">TypeScript</span><span class="tag">React</span><span class="tag">Electron</span><span class="tag">Vite</span></div>
+        <div class="proj-foot">Ver página do produto <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></div>
+      </a>
+
+      <a class="proj rv" href="https://github.com/orleanss777-sys/church-slides-studio" target="_blank" rel="noopener">
+        <div class="proj-top">
+          <h3><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg> Código do Church Slides</h3>
+          <span class="badge pub">Público</span>
+        </div>
+        <p>O único produto com o código aberto no GitHub — dá para ler por dentro a arquitetura do editor, a exportação e o modo de apresentação.</p>
+        <div class="tags"><span class="tag">Repositório público</span><span class="tag">TypeScript</span><span class="tag">Electron</span></div>
+        <div class="proj-foot">Ver no GitHub <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></div>
+      </a>
+
+    </div>
+
+    <div class="sub-head rv"><h3>Outros projetos</h3><span>infraestrutura, suporte e ferramentas internas</span></div>
+
     <div class="proj-grid">
 
       <a class="proj rv" href="https://github.com/orleanss777-sys/sistema-chamados" target="_blank" rel="noopener">
@@ -510,16 +606,6 @@ footer{border-top:1px solid var(--border);padding:30px 0 44px;margin-top:20px}
         </div>
         <p>Service Desk completo em Flask com <b>controle de SLA</b>, base de conhecimento, API REST documentada e um laboratório de treinamento para analistas <b>N1 e N2</b>. Nasceu da própria rotina de suporte.</p>
         <div class="tags"><span class="tag">Python</span><span class="tag">Flask</span><span class="tag">SQLAlchemy</span><span class="tag">REST API</span><span class="tag">Bootstrap</span></div>
-        <div class="proj-foot">Ver no GitHub <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></div>
-      </a>
-
-      <a class="proj rv" href="https://github.com/orleanss777-sys/church-slides-studio" target="_blank" rel="noopener">
-        <div class="proj-top">
-          <h3><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.75 1h12.5A1.75 1.75 0 0 1 16 2.75v8.5A1.75 1.75 0 0 1 14.25 13H9v1.5h2.25a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5H7V13H1.75A1.75 1.75 0 0 1 0 11.25v-8.5A1.75 1.75 0 0 1 1.75 1Z"/></svg> Church Slides Studio</h3>
-          <span class="badge pub">Público</span>
-        </div>
-        <p>Editor de apresentações e artes para igrejas, <b>100% offline</b>, empacotado como aplicativo desktop. Gerador de artes por público-alvo e exportação para <b>PDF, PPTX e PNG</b>.</p>
-        <div class="tags"><span class="tag">TypeScript</span><span class="tag">Electron</span><span class="tag">React</span><span class="tag">Vite</span><span class="tag">Canvas</span></div>
         <div class="proj-foot">Ver no GitHub <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06l2.97-2.97H2.75a.75.75 0 0 1 0-1.5h8.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"/></svg></div>
       </a>
 
@@ -560,16 +646,6 @@ footer{border-top:1px solid var(--border);padding:30px 0 44px;margin-top:20px}
         </div>
         <p>Painel desktop que gerencia <b>WSL e Hyper-V</b> pelo Windows: habilita e desabilita recursos via <b>DISM</b>, controla distribuições e máquinas virtuais, tudo a partir de um ícone na bandeja.</p>
         <div class="tags"><span class="tag">C#</span><span class="tag">.NET 10</span><span class="tag">WPF</span><span class="tag">DISM</span><span class="tag">Virtualização</span></div>
-        <div class="proj-foot off">Repositório privado — código disponível sob solicitação</div>
-      </div>
-
-      <div class="proj rv">
-        <div class="proj-top">
-          <h3><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 1h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2Zm2 3v2h2V4H5Zm4 0v2h2V4H9ZM5 8v2h2V8H5Zm4 0v2h2V8H9Z"/></svg> Autoatendimento QR</h3>
-          <span class="badge priv">Privado</span>
-        </div>
-        <p>Sistema de pedidos por <b>QR Code</b> para restaurantes: PWAs separados para cliente, garçom e administração, atualização em <b>tempo real via Socket.IO</b> e worker de impressão <b>ESC/POS</b> na cozinha.</p>
-        <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Socket.IO</span><span class="tag">SQLite</span><span class="tag">PWA</span><span class="tag">ESC/POS</span></div>
         <div class="proj-foot off">Repositório privado — código disponível sob solicitação</div>
       </div>
 
